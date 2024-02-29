@@ -216,6 +216,7 @@ def Finder_IETE(time1, time_name1, start1):
     global time_name2
     time2 = time1
     time_name2 = time_name1
+    nom_place = 'vide'
     # while True:
 
     # ----- Appel des données Polygon.io OHLC et creation du DF -----#
@@ -474,12 +475,8 @@ def Finder_IETE(time1, time_name1, start1):
                 # ----- condition pour que la tete fasse au minimum 2.8% -----#
 
                 # ----- condition pour garantir la forme de l'iete  -----#
-                if (C - B) < (C - D) and (C - B) < (E - D) and (E - F) < (E - D) and (E - F) < (
-                        C - D) and B > D and F > D and B < C and F < E and A >= mirande2['c'].iloc[
-                    0] and verif == 0 and ordre == True and mini_pourcent == True:
+                if (C - B) < (C - D) and (C - B) < (E - D) and (E - F) < (E - D) and (E - F) < (C - D) and B > D and F > D and B < C and F < E and A >= mirande2['c'].iloc[0] and verif == 0 and ordre == True and mini_pourcent == True:
                     # ----- condition pour garantir la forme de l'iete  -----#
-                    nom_place = 'etape 1'
-                    courbe(tiker_live, time1, time_name1, mirande3, local_min, local_max, A, B, C, D, E, F, G, df, place_liveprice)
                     # ----- essaye de determiner les point d'intersection de la LDC -----#
                     try:
                         J = line_intersection((AJ, BJ), (CJ, DJ))
@@ -515,115 +512,120 @@ def Finder_IETE(time1, time_name1, start1):
                         # ----- creation de la fonction Moyenne mobile  -----#
 
                     # ----- condition pour filtrer iete  -----#
-                    if I[1] > B and J[1] > F and moyenne_epaule1 <= moyenne_tete / 2 and moyenne_epaule2 <= moyenne_tete / 2 and moyenne_epaule1 >= moyenne_tete / 4 and moyenne_epaule2 >= moyenne_tete / 4 and accept == True and df['c'].values[-2] <= J[1] + (moyenne_tete) / 4 and df['c'].values[-2] >= J[1] and df['c'].values[-1] <= J[1] + (moyenne_tete) / 4 and df['c'].values[-1] >= J[1] and G >= 1:
-                        # ----- condition pour filtrer iete  -----#
+                    if (I[1] > B and J[1] > F and moyenne_epaule1 <= moyenne_tete / 2 and moyenne_epaule2 <= moyenne_tete / 2 and moyenne_epaule1 >= moyenne_tete / 4 and moyenne_epaule2 >= moyenne_tete / 4 ):
                         nom_place = 'etape 2'
-                        courbe(tiker_live, time1, time_name1, mirande3, local_min, local_max, A, B, C, D, E, F, G, df, place_liveprice,nom_place)
-                        # ----- systeme de notation des iete en fonction de la beaute et de la perfection de realisation  -----#
-                        note = 0
-                        pourcentage_10_tete = (10 * (local_max[-1] - local_max[-2])) / 100
-                        pourcentage_10_ep1 = (20 * (local_max[-2] - I[0])) / 100
-                        pourcentage_10_ep2 = (20 * (J[0] - local_max[-1])) / 100
-                        pourcentage_20_moy_epaule = (30 * moyenne_des_epaule) / 100
+                        if (accept == True):
+                            nom_place = 'etape 3'
+                            if (df['c'].values[-2] <= J[1] + (moyenne_tete) / 4 and df['c'].values[-2] >= J[1] and df['c'].values[-1] <= J[1] + (moyenne_tete) / 4 and df['c'].values[-1] >= J[1] and G >= 1):
+                                nom_place = 'etape 4'
+                                # ----- condition pour filtrer iete  -----#
+                                # ----- systeme de notation des iete en fonction de la beaute et de la perfection de realisation  -----#
+                                note = 0
+                                pourcentage_10_tete = (10 * (local_max[-1] - local_max[-2])) / 100
+                                pourcentage_10_ep1 = (20 * (local_max[-2] - I[0])) / 100
+                                pourcentage_10_ep2 = (20 * (J[0] - local_max[-1])) / 100
+                                pourcentage_20_moy_epaule = (30 * moyenne_des_epaule) / 100
 
-                        debugage = []
+                                debugage = []
 
-                        if local_min[-2] < (local_max[-2] + local_max[-1]) / 2 + pourcentage_10_tete and local_min[
-                            -2] > (local_max[-2] + local_max[
-                            -1]) / 2 - pourcentage_10_tete:  # D doit etre au millieu (10% de marge)
-                            note = note + 3
-                            debugage.append(1)
+                                if local_min[-2] < (local_max[-2] + local_max[-1]) / 2 + pourcentage_10_tete and local_min[
+                                    -2] > (local_max[-2] + local_max[
+                                    -1]) / 2 - pourcentage_10_tete:  # D doit etre au millieu (10% de marge)
+                                    note = note + 3
+                                    debugage.append(1)
 
-                        if local_min[-3] < (I[0] + local_max[-2]) / 2 + pourcentage_10_ep1 and local_min[-3] > (
-                                I[0] + local_max[-2]) / 2 - pourcentage_10_ep1:  # B doit etre au millieu (10% de marge)
-                            note = note + 1
-                            debugage.append(2)
+                                if local_min[-3] < (I[0] + local_max[-2]) / 2 + pourcentage_10_ep1 and local_min[-3] > (
+                                        I[0] + local_max[-2]) / 2 - pourcentage_10_ep1:  # B doit etre au millieu (10% de marge)
+                                    note = note + 1
+                                    debugage.append(2)
 
-                        if local_min[-1] < (J[0] + local_max[-1]) / 2 + pourcentage_10_ep2 and local_min[-1] > (
-                                J[0] + local_max[-1]) / 2 - pourcentage_10_ep2:  # F doit etre au millieu (10% de marge)
-                            note = note + 1
-                            debugage.append(3)
+                                if local_min[-1] < (J[0] + local_max[-1]) / 2 + pourcentage_10_ep2 and local_min[-1] > (
+                                        J[0] + local_max[-1]) / 2 - pourcentage_10_ep2:  # F doit etre au millieu (10% de marge)
+                                    note = note + 1
+                                    debugage.append(3)
 
-                        if moyenne_epaule1 < moyenne_des_epaule + pourcentage_20_moy_epaule and moyenne_epaule1 > moyenne_des_epaule - pourcentage_20_moy_epaule and moyenne_epaule2 < moyenne_des_epaule + pourcentage_20_moy_epaule and moyenne_epaule2 > moyenne_des_epaule - pourcentage_20_moy_epaule:  # les epaules doivent etre de presque meme hauteur
-                            note = note + 1
-                            debugage.append(4)
+                                if moyenne_epaule1 < moyenne_des_epaule + pourcentage_20_moy_epaule and moyenne_epaule1 > moyenne_des_epaule - pourcentage_20_moy_epaule and moyenne_epaule2 < moyenne_des_epaule + pourcentage_20_moy_epaule and moyenne_epaule2 > moyenne_des_epaule - pourcentage_20_moy_epaule:  # les epaules doivent etre de presque meme hauteur
+                                    note = note + 1
+                                    debugage.append(4)
 
-                        if B < F:
-                            if (((F - B) * 100) / moyenne_tete) <= 30:
-                                note = note + 2
-                                debugage.append(5)
+                                if B < F:
+                                    if (((F - B) * 100) / moyenne_tete) <= 30:
+                                        note = note + 2
+                                        debugage.append(5)
 
-                        if B > F:
-                            if (((B - F) * 100) / moyenne_tete) <= 30:
-                                note = note + 2
-                                debugage.append(5)
+                                if B > F:
+                                    if (((B - F) * 100) / moyenne_tete) <= 30:
+                                        note = note + 2
+                                        debugage.append(5)
 
-                        if B == F:
-                            note = note + 2
-                            debugage.append(5)
+                                if B == F:
+                                    note = note + 2
+                                    debugage.append(5)
 
-                        if (local_max[-1] - local_max[-2]) > local_max[-2] - I[0] and (local_max[-1] - local_max[-2]) > \
-                                J[0] - local_max[-1]:  # tete plus large que les 2 epaules
-                            note = note + 0.5
-                            debugage.append(6)
+                                if (local_max[-1] - local_max[-2]) > local_max[-2] - I[0] and (local_max[-1] - local_max[-2]) > \
+                                        J[0] - local_max[-1]:  # tete plus large que les 2 epaules
+                                    note = note + 0.5
+                                    debugage.append(6)
 
-                        # if il y a pas de bruit:
-                        # note = note + 1.5
-                        # ----- systeme de notation des iete en fonction de la beaute et de la perfection de realisation  -----#
+                                # if il y a pas de bruit:
+                                # note = note + 1.5
+                                # ----- systeme de notation des iete en fonction de la beaute et de la perfection de realisation  -----#
 
-                        # ----- regarde si la target a deja ete toucher en volatilité avant affichage  -----#
-                        dejatoucher = False
-                        for i in range(int(round(J[0])), place_liveprice):
-                            if df['h'].iloc[i] <= J[1] + (moyenne_tete) / 2 and dejatoucher == False:
-                                dejatoucher = True
-                                dejatoucher2 = 'OUI'
-                        if dejatoucher == False:
-                            dejatoucher2 = 'NON'
-                        # ----- regarde si la target a deja ete toucher en volatilité avant affichage  -----#
+                                # ----- regarde si la target a deja ete toucher en volatilité avant affichage  -----#
+                                dejatoucher = False
+                                for i in range(int(round(J[0])), place_liveprice):
+                                    if df['h'].iloc[i] <= J[1] + (moyenne_tete) / 2 and dejatoucher == False:
+                                        dejatoucher = True
+                                        dejatoucher2 = 'OUI'
+                                if dejatoucher == False:
+                                    dejatoucher2 = 'NON'
+                                # ----- regarde si la target a deja ete toucher en volatilité avant affichage  -----#
 
-                        # ----- initialisation des données d'aide -----#
-                        # playsound('note.wav')
-                        moins50p = G - ((moyenne_tete) * 250 / 100)
-                        plus_grand = round((J[1] + (moyenne_tete) / 2), 5)
-                        plus_petit = round(G, 5)
-                        pourcent_chercher = ((plus_grand - plus_petit) / plus_petit) * 100
-                        pourcent_chercher = round(pourcent_chercher, 2)
-                        # pourcent_perdu = ((round(G, 5)- moins50p)*100)/round(G, 5)
-                        pourcent_perdu = ((round(G, 5) - round(F, 5)) * 100) / round(G, 5)
-                        pourcent_perdu = round(pourcent_perdu, 2)
-                        pertenet = 0.005 * G
-                        if pertenet < 1:
-                            pertenet = 1
-                        pertenet = pertenet * 2  # 2 fois puisque maker et taker
-                        pertenet_pourcent = (pertenet * 100) / 500
-                        pourcent_chercher2 = pourcent_chercher - pertenet_pourcent
-                        pourcent_chercher2 = round(pourcent_chercher2, 2)
+                                # ----- initialisation des données d'aide -----#
+                                # playsound('note.wav')
+                                moins50p = G - ((moyenne_tete) * 250 / 100)
+                                plus_grand = round((J[1] + (moyenne_tete) / 2), 5)
+                                plus_petit = round(G, 5)
+                                pourcent_chercher = ((plus_grand - plus_petit) / plus_petit) * 100
+                                pourcent_chercher = round(pourcent_chercher, 2)
+                                # pourcent_perdu = ((round(G, 5)- moins50p)*100)/round(G, 5)
+                                pourcent_perdu = ((round(G, 5) - round(F, 5)) * 100) / round(G, 5)
+                                pourcent_perdu = round(pourcent_perdu, 2)
+                                pertenet = 0.005 * G
+                                if pertenet < 1:
+                                    pertenet = 1
+                                pertenet = pertenet * 2  # 2 fois puisque maker et taker
+                                pertenet_pourcent = (pertenet * 100) / 500
+                                pourcent_chercher2 = pourcent_chercher - pertenet_pourcent
+                                pourcent_chercher2 = round(pourcent_chercher2, 2)
 
-                        pourcent_perdu = pourcent_perdu - pertenet_pourcent
-                        pourcent_perdu = round(pourcent_perdu, 2)
-                        # ----- initialisation des données d'aide -----#
+                                pourcent_perdu = pourcent_perdu - pertenet_pourcent
+                                pourcent_perdu = round(pourcent_perdu, 2)
+                                # ----- initialisation des données d'aide -----#
 
-                        thread = Process(target=courbe, args=(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pourcent_perdu,note,debugage,dejatoucher2,mirande3,mirande2,J,I,moyenne_tete,moins50p,local_min,local_max,A,B,C,D,E,F,G,df,place_liveprice))
-                        thread.start()
+                                thread = Process(target=courbe, args=(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pourcent_perdu,note,debugage,dejatoucher2,mirande3,mirande2,J,I,moyenne_tete,moins50p,local_min,local_max,A,B,C,D,E,F,G,df,place_liveprice))
+                                thread.start()
 
 
-                        # ----- enregister des données inutiles -----#
-                        data_A.append(A)
-                        data_B.append(B)
-                        data_C.append(C)
-                        data_D.append(D)
-                        data_E.append(E)
-                        data_F.append(F)
-                        data_F.append(G)
-                        data_A_ = pd.DataFrame(data_A, columns=['A'])
-                        data_B_ = pd.DataFrame(data_B, columns=['B'])
-                        data_C_ = pd.DataFrame(data_C, columns=['C'])
-                        data_D_ = pd.DataFrame(data_D, columns=['D'])
-                        data_E_ = pd.DataFrame(data_E, columns=['E'])
-                        data_F_ = pd.DataFrame(data_E, columns=['F'])
-                        data_G_ = pd.DataFrame(data_E, columns=['G'])
-                        df_IETE = pd.concat([data_A_, data_B_, data_C_, data_D_, data_E_, data_F_, data_G_], axis=1)
-                        # ----- enregister des données inutiles -----#
+                                # ----- enregister des données inutiles -----#
+                                data_A.append(A)
+                                data_B.append(B)
+                                data_C.append(C)
+                                data_D.append(D)
+                                data_E.append(E)
+                                data_F.append(F)
+                                data_F.append(G)
+                                data_A_ = pd.DataFrame(data_A, columns=['A'])
+                                data_B_ = pd.DataFrame(data_B, columns=['B'])
+                                data_C_ = pd.DataFrame(data_C, columns=['C'])
+                                data_D_ = pd.DataFrame(data_D, columns=['D'])
+                                data_E_ = pd.DataFrame(data_E, columns=['E'])
+                                data_F_ = pd.DataFrame(data_E, columns=['F'])
+                                data_G_ = pd.DataFrame(data_E, columns=['G'])
+                                df_IETE = pd.concat([data_A_, data_B_, data_C_, data_D_, data_E_, data_F_, data_G_], axis=1)
+                                # ----- enregister des données inutiles -----#
+                if nom_place != 'vide':
+                    courbe(tiker_live, time1, time_name1, mirande3, local_min, local_max, A, B, C, D, E, F, G, df, place_liveprice, nom_place)
                 print('----------------------------------------------------------------------', flush=True)
                 time.sleep(0.5)
 
