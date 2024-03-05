@@ -521,11 +521,11 @@ def Finder_IETE(time1, time_name1, start1):
                         nom_place = 'etape 2'
                         if (accept == True):
                             nom_place = 'etape 3'
-                            if (df['c'].values[-2] <= J[1]):#(df['c'].values[-2] <= J[1] + (moyenne_tete) / 4):
+                            if (df['c'].values[-2] <= J[1] + (moyenne_tete) / 4):
                                 nom_place = 'etape 4'
-                                if (df['c'].values[-2] >= J[1] - (moyenne_tete) / 4):#(df['c'].values[-2] >= J[1]):
+                                if (df['c'].values[-2] >= J[1] - (moyenne_tete) / 4):
                                     nom_place = 'etape 5'
-                                    if (df['c'].values[-1] <= J[1] + (moyenne_tete) / 4):
+                                    if (df['c'].values[-1] <= J[1] + (moyenne_tete) / 4) :
                                         nom_place = 'etape 6'
                                         if (df['c'].values[-1] >= J[1] and G >= 1):
                                             nom_place = 'etape 7'
