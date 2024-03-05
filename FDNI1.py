@@ -635,8 +635,8 @@ def Finder_IETE(time1, time_name1, start1):
                                             data_G_ = pd.DataFrame(data_E, columns=['G'])
                                             df_IETE = pd.concat([data_A_, data_B_, data_C_, data_D_, data_E_, data_F_, data_G_], axis=1)
                                             # ----- enregister des données inutiles -----#
-                if nom_place != 'vide':
-                    courbe(tiker_live, time1, time_name1, mirande3, local_min, local_max, A, B, C, D, E, F, G, df, place_liveprice, nom_place, moyenne_tete, J)
+                #if nom_place != 'vide':
+                    #courbe(tiker_live, time1, time_name1, mirande3, local_min, local_max, A, B, C, D, E, F, G, df, place_liveprice, nom_place, moyenne_tete, J)
                 print('----------------------------------------------------------------------', flush=True)
                 time.sleep(0.5)
 
