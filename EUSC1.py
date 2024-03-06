@@ -25,7 +25,24 @@ from ftplib import FTP
 
 # ----- initialisation des modules -----#
 
+# ----- initialisation des couleurs du modules pystyle -----#
+class bcolors:
+    OK = '\033[92m'  # GREEN
+    WARNING = '\033[93m'  # YELLOW
+    FAIL = '\033[91m'  # RED
+    RESET = '\033[0m'  # RESET COLOR
+    PURPLE = '\033[35m'  # PURPLE
 
+
+w = Fore.WHITE
+b = Fore.BLACK
+g = Fore.LIGHTGREEN_EX
+y = Fore.LIGHTYELLOW_EX
+m = Fore.LIGHTMAGENTA_EX
+c = Fore.LIGHTCYAN_EX
+lr = Fore.LIGHTRED_EX
+lb = Fore.LIGHTBLUE_EX
+# ----- initialisation des couleurs du modules pystyle -----#
 
 # ----- initialisation des temps de recherches -----#
 date = datetime.datetime.now()
@@ -44,8 +61,8 @@ start_1month = str(pd.Timestamp.today() + pd.DateOffset(-240))[0:10]
 # ----- initialisation des temps de recherches -----#
 
 # ----- initialisation de l'API key et ticker -----#
-#api_key = '1KsqKOh1pTAJyWZx6Qm9pvnaNcpKVh_8'
-api_key = 'q5li8Y5ldvlF7eP8YI7XdMWbyOA3scWJ'
+api_key = '1KsqKOh1pTAJyWZx6Qm9pvnaNcpKVh_8'
+#api_key = 'q5li8Y5ldvlF7eP8YI7XdMWbyOA3scWJ'
 ticker = 'EUSC'
 tiker_live = ticker
 
@@ -55,137 +72,160 @@ argument3 = 0
 # ----- initialisation de l'API key et ticker -----#
 
 
+
+# ----- initialisation des fonctions lies au boutons -----#
+def save_figure(event):
+    now = datetime.datetime.now()
+    plt.savefig(f'capture/{now.strftime("%Hh:%M:%S")}')
+    #button1.color = '#94ffa4'
+    #button1.hovercolor = '#94ffa4'
+
+
+
+def envoie_ticker(ticker, time1, time_name1):
+    # Les mots à enregistrer
+    words = [f'{ticker}', f'{time1}', f'{time_name1}']
+
+    # Enregistrement des mots dans un fichier local en mode append
+    with open('mots.txt', 'w') as file:
+        for word in words:
+            file.write(word + '\n')
+
+    # Informations de connexion FTP
+    ftp_host = 'ftp.cluster030.hosting.ovh.net'
+    ftp_user = 'abtrado'
+    ftp_password = '4a9dFrYgfrSB'
+
+    # Connexion au serveur FTP
+    ftp = FTP(ftp_host)
+    ftp.login(user=ftp_user, passwd=ftp_password)
+
+    # Envoi du fichier "mots.txt" vers le serveur FTP
+    with open('mots.txt', 'rb') as file:
+        ftp.storbinary('STOR mots.txt', file)
+
+    # Fermeture de la connexion FTP
+    ftp.quit()
+
+
+def purchase(event):
+    global argument2
+    global argument3
+    global tiker_live
+    global time2
+    global time_name2
+    print("Achat en Cours.")
+    #button2.color = '#ff9494'
+    #button2.hovercolor = '#ff9494'
+    #chemin_script = "test.py"
+    #subprocess.Popen(['gnome-terminal', '--tab', '--title', f'{tiker_live}', '--', 'python3', '/home/mat/Bureau/perso/connard/test.py', tiker_live, str(argument2), str(argument3)])
+    envoie_ticker(tiker_live,time2,time_name2)
+# ----- initialisation des fonctions lies au boutons -----#
+
+
 def courbe(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pourcent_perdu,note,debugage,dejatoucher2,mirande3,mirande2,J,I,moyenne_tete,moins50p,local_min,local_max,A,B,C,D,E,F,G,df,place_liveprice):
     global argument2
     global argument3
-    dejatoucher3 = 'NON'
     # ----- creer la figure et l'affichage MATPLOTLIB -----#
     Write.Print("<🟢> <🟢> <🟢> <🟢> NOUVELLE FIGURE ! <🟢> <🟢> <🟢> <🟢>", Colors.green, interval=0.000)
     print('')
-    highs = df.iloc[local_max, :]
-    lows = df.iloc[local_min, :]
-    fig = plt.figure(figsize=(10, 7))
-    if pourcent_chercher2 >= 1:
-        fig.patch.set_facecolor('#17DE17')
-        fig.patch.set_alpha(0.3)
-    if pourcent_chercher2 >= 3:
-        fig.patch.set_facecolor('#3498DB')
-        fig.patch.set_alpha(0.3)
-    if pourcent_chercher2 >= 5:
-        fig.patch.set_facecolor('#6c00d3')
-        fig.patch.set_alpha(0.3)
-    if pourcent_chercher2 >= 10:
-        fig.patch.set_facecolor('#ffdc00')
-        fig.patch.set_alpha(0.3)
-    if ((((((G + ((moyenne_tete) * 12 / 100)) - G)) * 100) / G) * 1000) / 100 >= 5:
-        dejatoucher3 = 'OUI'
-    plt.plot([], [], ' ')
-    plt.title(
-        f'IETE : {tiker_live} | {time1} {time_name1} | +{pourcent_chercher}% BRUT | +{pourcent_chercher2}% NET | -{pourcent_perdu}% NET | {note}/10 | {debugage} | {dejatoucher3}',
-        fontweight="bold", color='black')
-    mirande3['c'].plot(color=['blue'], label='Clotures')
-    # df['sma_20'].plot(label='Ema 20', linestyle='-', linewidth=1.2, color='green')
-    # df['sma_50'].plot(label='Ema 50', linestyle='-', linewidth=1.2, color='red')
-    # df['sma_100'].plot(label='Ema 100', linestyle='-', linewidth=1.2, color='blue')
-    # mirande['c'].plot(color=['#FF0000'])
-    mirande2['c'].plot(color=['green'], linestyle='--', label='Ligne de coup')
-    plt.axhline(y=J[1] + moyenne_tete, linestyle='--', alpha=0.3, color='red',
-                label='100% objectif')
-    plt.axhline(y=J[1] + (((moyenne_tete) / 2) + ((moyenne_tete) / 4)), linestyle='--',
-                alpha=0.3, color='black', label='75% objectif')
-    plt.axhline(y=G + ((moyenne_tete) * 12 / 100), linestyle='--', alpha=0.3, color='orange',
-                label='12% objectif depuis G')
-    plt.axhline(y=J[1] + (moyenne_tete) / 4, linestyle='--', alpha=0.3, color='black',
-                label='25% objectif')
-    plt.axhline(y=moins50p, linestyle='--', alpha=0.3, color='purple', label='-250% objectif depuis G')
-    plt.grid(True, which='major', color='#666666', linestyle='-', alpha=0.1)
-    taille_diviser = (local_max[-1] - local_max[-2]) / (local_min[-2] - local_max[-2])
-    # point_max = J[0]+((J[0] - I[0])/taille_diviser)
-    point_max = J[0] + ((J[0] - I[0]))
-    point_max = int(round(point_max, 0))
-    # plt.scatter(point_max, df['c'].values[int(round(point_max, 0))], color='red',label='Max temps realisation')
-    plt.legend()
-    plt.text(local_max[-3], A, "A", ha='left', style='normal', size=10.5, color='red',
-             wrap=True)
-    plt.text(J[0], G + ((moyenne_tete) * 12 / 100), f"{round(G + ((moyenne_tete) * 12 / 100), 5)}",
-             ha='left', style='normal', size=10.5, color='red', wrap=True)
-    plt.text(J[0], moins50p, f"{round(moins50p, 5)}", ha='left', style='normal', size=10.5,
-             color='red', wrap=True)
-    plt.text(local_min[-3], B, "B", ha='left', style='normal', size=10.5, color='red',
-             wrap=True)
-    plt.text(local_max[-2], C, "C", ha='left', style='normal', size=10.5, color='red',
-             wrap=True)
-    plt.text(local_min[-2], D, f"D {round(D, 5)}", ha='left', style='normal', size=10.5,
-             color='red', wrap=True)
-    plt.text(local_max[-1], E, "E", ha='left', style='normal', size=10.5, color='red',
-             wrap=True)
-    plt.text(local_min[-1], F, f"F  {round(F, 5)}", ha='left', style='normal', size=10.5,
-             color='red', wrap=True)
-    plt.text(place_liveprice, G, f"G  {round(G, 5)}", ha='left', style='normal', size=10.5,
-             color='red', wrap=True)
-    plt.text(I[0], I[1], "I", ha='left', style='normal', size=10.5, color='#00FF36', wrap=True)
-    plt.text(J[0], J[1], "J", ha='left', style='normal', size=10.5, color='#00FF36', wrap=True)
-    plt.text(local_max[-4] +2,  G + ((moyenne_tete) * 50 / 100), f"{round(G + ((moyenne_tete) * 50 / 100), 3)}", size=10.5, ha="center", va="center", bbox=dict(boxstyle="round", ec=(1., 0.5, 0.5), fc=(1., 0.8, 0.8), ))
-    plt.text(local_max[-4] +2,  G - ((moyenne_tete) * 25 / 100), f"{round(G - ((moyenne_tete) * 25 / 100),3)}", size=10.5, ha="center", va="center", bbox=dict(boxstyle="round", ec=(1., 0.5, 0.5), fc=(1., 0.8, 0.8), ))
-    plt.text(local_max[-4] - 1, G + ((moyenne_tete) * 50 / 100), f"{round(J[1] + ((moyenne_tete) * 50 / 100), 3)} pas depuis G", size=10.5, ha="center", va="center", bbox=dict(boxstyle="round", ec="blue", fc="lightblue"))
-    plt.text(local_max[-4] - 1, G - ((moyenne_tete) * 25 / 100), f"{round(J[1] - ((moyenne_tete) * 25 / 100), 3)} pas depuis G", size=10.5, ha="center", va="center", bbox=dict(boxstyle="round", ec="blue", fc="lightblue"))
-    # test_valeur = df['c'].iloc[round(J[0]) + 1]
-    # plt.text(round(J[0]), df['c'].iloc[round(J[0])], f"J+1 {test_valeur}", ha='left',style='normal', size=10.5, color='#00FF36', wrap=True)
-    plt.scatter(len(df['c']) - 1, df['c'].values[-1], color='blue', label='liveprice')
-    plt.scatter(len(df['c']) - 2, df['c'].values[-2], color='orange', label='cloture')
-    plt.scatter(local_max[-3], A, color='blue')
-    plt.scatter(local_min[-3], B, color='blue')
-    plt.scatter(local_max[-2], C, color='blue')
-    plt.scatter(local_min[-2], D, color='blue')
-    plt.scatter(local_max[-1], E, color='blue')
-    plt.scatter(local_min[-1], F, color='blue')
-    #plt.scatter(x=highs.index, y=highs['c'], alpha=0.5)
-    #plt.scatter(x=lows.index, y=lows['c'], alpha=0.5)
-    argument2 = round((J[1] + (moyenne_tete) / 2), 5)
-    argument3 = round(moins50p, 5)
-    plt.show()
+    try:
+        highs = df.iloc[local_max, :]
+        lows = df.iloc[local_min, :]
+        fig = plt.figure(figsize=(10, 7))
+        if pourcent_chercher2 >= 1:
+            fig.patch.set_facecolor('#17DE17')
+            fig.patch.set_alpha(0.3)
+        if pourcent_chercher2 >= 3:
+            fig.patch.set_facecolor('#3498DB')
+            fig.patch.set_alpha(0.3)
+        if pourcent_chercher2 >= 5:
+            fig.patch.set_facecolor('#6c00d3')
+            fig.patch.set_alpha(0.3)
+        if pourcent_chercher2 >= 10:
+            fig.patch.set_facecolor('#ffdc00')
+            fig.patch.set_alpha(0.3)
+        plt.plot([], [], ' ')
+        plt.title(
+            f'IETE : {tiker_live} | {time1} {time_name1} | +{pourcent_chercher}% BRUT | +{pourcent_chercher2}% NET | -{pourcent_perdu}% NET | {note}/10 | {debugage} | {dejatoucher2}',
+            fontweight="bold", color='black')
+        mirande3['c'].plot(color=['blue'], label='Clotures')
+        # df['sma_20'].plot(label='Ema 20', linestyle='-', linewidth=1.2, color='green')
+        # df['sma_50'].plot(label='Ema 50', linestyle='-', linewidth=1.2, color='red')
+        # df['sma_100'].plot(label='Ema 100', linestyle='-', linewidth=1.2, color='blue')
+        # mirande['c'].plot(color=['#FF0000'])
+        mirande2['c'].plot(color=['green'], linestyle='--', label='Ligne de coup')
+        plt.axhline(y=J[1] + moyenne_tete, linestyle='--', alpha=0.3, color='red',
+                    label='100% objectif')
+        plt.axhline(y=J[1] + (((moyenne_tete) / 2) + ((moyenne_tete) / 4)), linestyle='--',
+                    alpha=0.3, color='black', label='75% objectif')
+        plt.axhline(y=J[1] + (moyenne_tete) / 2, linestyle='--', alpha=0.3, color='orange',
+                    label='50% objectif')
+        plt.axhline(y=J[1] + (moyenne_tete) / 4, linestyle='--', alpha=0.3, color='black',
+                    label='25% objectif')
+        plt.axhline(y=moins50p, linestyle='--', alpha=0.3, color='purple', label='-50% objectif')
+        plt.grid(True, which='major', color='#666666', linestyle='-', alpha=0.1)
+        taille_diviser = (local_max[-1] - local_max[-2]) / (local_min[-2] - local_max[-2])
+        # point_max = J[0]+((J[0] - I[0])/taille_diviser)
+        point_max = J[0] + ((J[0] - I[0]))
+        point_max = int(round(point_max, 0))
+        # plt.scatter(point_max, df['c'].values[int(round(point_max, 0))], color='red',label='Max temps realisation')
+        plt.legend()
+        plt.text(local_max[-3], A, "A", ha='left', style='normal', size=10.5, color='red',
+                 wrap=True)
+        plt.text(J[0], J[1] + (moyenne_tete) / 2, f"{round((J[1] + (moyenne_tete) / 2), 5)}",
+                 ha='left', style='normal', size=10.5, color='red', wrap=True)
+        plt.text(J[0], moins50p, f"{round(moins50p, 5)}", ha='left', style='normal', size=10.5,
+                 color='red', wrap=True)
+        plt.text(local_min[-3], B, "B", ha='left', style='normal', size=10.5, color='red',
+                 wrap=True)
+        plt.text(local_max[-2], C, "C", ha='left', style='normal', size=10.5, color='red',
+                 wrap=True)
+        plt.text(local_min[-2], D, f"D {round(D, 5)}", ha='left', style='normal', size=10.5,
+                 color='red', wrap=True)
+        plt.text(local_max[-1], E, "E", ha='left', style='normal', size=10.5, color='red',
+                 wrap=True)
+        plt.text(local_min[-1], F, f"F  {round(F, 5)}", ha='left', style='normal', size=10.5,
+                 color='red', wrap=True)
+        plt.text(place_liveprice, G, f"G  {round(G, 5)}", ha='left', style='normal', size=10.5,
+                 color='red', wrap=True)
+        plt.text(I[0], I[1], "I", ha='left', style='normal', size=10.5, color='#00FF36', wrap=True)
+        plt.text(J[0], J[1], "J", ha='left', style='normal', size=10.5, color='#00FF36', wrap=True)
+        # test_valeur = df['c'].iloc[round(J[0]) + 1]
+        # plt.text(round(J[0]), df['c'].iloc[round(J[0])], f"J+1 {test_valeur}", ha='left',style='normal', size=10.5, color='#00FF36', wrap=True)
+        plt.scatter(len(df['c']) - 1, df['c'].values[-1], color='blue', label='liveprice')
+        plt.scatter(len(df['c']) - 2, df['c'].values[-2], color='orange', label='cloture')
+        plt.scatter(local_max[-3], A, color='blue')
+        plt.scatter(local_min[-3], B, color='blue')
+        plt.scatter(local_max[-2], C, color='blue')
+        plt.scatter(local_min[-2], D, color='blue')
+        plt.scatter(local_max[-1], E, color='blue')
+        plt.scatter(local_min[-1], F, color='blue')
+        #plt.scatter(x=highs.index, y=highs['c'], alpha=0.5)
+        #plt.scatter(x=lows.index, y=lows['c'], alpha=0.5)
+        argument2 = round((J[1] + (moyenne_tete) / 2), 5)
+        argument3 = round(moins50p, 5)
+        # Paramètres des boutons
+        button_width = 0.2
+        button_height = 0.075
+        button_space = 0.05
+        # Création du bouton pour enregistrer la figure
+        button_ax1 = plt.axes([0.125, 0.001, button_width, button_height], facecolor='none')
+        button1 = plt.Button(button_ax1, 'Enregistrer', color='white', hovercolor='lightgray')
+        button1.on_clicked(save_figure)
+        # Création du bouton pour acheter
+        button_ax2 = plt.axes([0.9 - button_width, 0.001, button_width, button_height], facecolor='none')
+        button2 = plt.Button(button_ax2, 'Acheter', color='white', hovercolor='lightgray')
+        button2.on_clicked(purchase)
+        plt.show()
 
-
-
-def courbe(tiker_live,time1,time_name1,mirande3,local_min,local_max,A,B,C,D,E,F,G,df,place_liveprice, nom_place, moyenne_tete, J):
     # ----- creer la figure et l'affichage MATPLOTLIB -----#
-    Write.Print("<🟢> <🟢> <🟢> <🟢> NOUVELLE FIGURE ! <🟢> <🟢> <🟢> <🟢>", Colors.green, interval=0.000)
-    plt.plot([], [], ' ')
-    plt.title(
-        f'IETE : {tiker_live} | {time1} {time_name1} | {nom_place}  |  \PAS PRISE/',
-        fontweight="bold", color='black')
-    mirande3['c'].plot(color=['blue'], label='Clotures')
-    plt.grid(True, which='major', color='#666666', linestyle='-', alpha=0.1)
-    plt.legend()
-    plt.text(local_max[-3], A, "A", ha='left', style='normal', size=10.5, color='red',
-             wrap=True)
-    plt.text(local_min[-3], B, "B", ha='left', style='normal', size=10.5, color='red',
-             wrap=True)
-    plt.text(local_max[-2], C, "C", ha='left', style='normal', size=10.5, color='red',
-             wrap=True)
-    plt.text(local_min[-2], D, f"D", ha='left', style='normal', size=10.5,
-             color='red', wrap=True)
-    plt.text(local_max[-1], E, "E", ha='left', style='normal', size=10.5, color='red',
-             wrap=True)
-    plt.text(local_min[-1], F, f"F", ha='left', style='normal', size=10.5,
-             color='red', wrap=True)
-    plt.text(place_liveprice, G, f"G", ha='left', style='normal', size=10.5,
-             color='red', wrap=True)
-
-    plt.axhline(y=J[1] + (moyenne_tete) / 4, linestyle='--', alpha=0.3, color='green', label='-25% objectif')
-    plt.axhline(y=J[1] - (moyenne_tete) / 4, linestyle='--', alpha=0.3, color='red', label='-25% objectif')
-
-
-    plt.scatter(len(df['c']) - 1, df['c'].values[-1], color='blue', label='liveprice')
-    plt.scatter(len(df['c']) - 2, df['c'].values[-2], color='orange', label='cloture')
-    plt.scatter(local_max[-3], A, color='blue')
-    plt.scatter(local_min[-3], B, color='blue')
-    plt.scatter(local_max[-2], C, color='blue')
-    plt.scatter(local_min[-2], D, color='blue')
-    plt.scatter(local_max[-1], E, color='blue')
-    plt.scatter(local_min[-1], F, color='blue')
-    plt.show()
-
+    except:
+        remplacement('%log%',
+                     f'{datetime.datetime.now()} PROBLEME D\'AFFICHAGE MATPLOTLIB SUR: {ticker} {time1} {time_name1}\n%log%',
+                     'Log.txt', f'Log.txt')
+        Write.Print("<⛔> <⛔> <⛔> <⛔> ERREUR CRITIQUE <⛔> <⛔> <⛔> <⛔>", Colors.red, interval=0.000)
+        print('')
 
 
 # ----- fonction pour trouver les point intersection de la ligne de coup et de la Courbe -----#
@@ -208,6 +248,23 @@ def line_intersection(line1, line2):
 
 # ----- fonction pour trouver les point intersection de la ligne de coup et de la Courbe -----#
 
+# ----- fonction pour remplacer et ecrire dans le fichier log -----#
+def remplacement(nom, remplace, fichier_lecture, fichier_modif):  # pour remplacer les varible de la feuille imprimable
+    try:
+        file = open(f"{fichier_lecture}", "r+")
+        a = str(file.read())
+        file.close()
+        file = open(f"{fichier_modif}", "w")
+
+        a = a.replace(f'{nom}', f'{remplace}')
+        file.write(a)
+        file.close()
+        # Write.Print("  Remplacement reussi  !", Colors.green, interval=0.000)
+        print('')
+    except:
+        # Write.Print("!! Remplacement echoué  !!", Colors.red, interval=0.000)
+        print('')
+
 
 # ----- fonction pour remplacer et ecrire dans le fichier log -----#
 
@@ -221,7 +278,6 @@ def Finder_IETE(time1, time_name1, start1):
     global time_name2
     time2 = time1
     time_name2 = time_name1
-    nom_place = 'vide'
     # while True:
 
     # ----- Appel des données Polygon.io OHLC et creation du DF -----#
@@ -247,6 +303,9 @@ def Finder_IETE(time1, time_name1, start1):
             livePrice = df_livePrice['results'].iloc[la_place_de_p]
             passed1 = True
         except:
+            remplacement('%log%',
+                         f'{datetime.datetime.now()} PROBLEME DE CONNECTION AU TITRE ET (OU) DE RESULTAT SUR: {ticker} {time1} {time_name1}\n%log%',
+                         'Log.txt', f'Log.txt')
             Write.Print("<⛔> <⛔> <⛔> <⛔> ERREUR CRITIQUE <⛔> <⛔> <⛔> <⛔>", Colors.red, interval=0.000)
             print('')
 
@@ -480,8 +539,11 @@ def Finder_IETE(time1, time_name1, start1):
                 # ----- condition pour que la tete fasse au minimum 2.8% -----#
 
                 # ----- condition pour garantir la forme de l'iete  -----#
-                if (C - B) < (C - D) and (C - B) < (E - D) and (E - F) < (E - D) and (E - F) < (C - D) and B > D and F > D and B < C and F < E and A >= mirande2['c'].iloc[0] and verif == 0 and ordre == True and mini_pourcent == True:
+                if (C - B) < (C - D) and (C - B) < (E - D) and (E - F) < (E - D) and (E - F) < (
+                        C - D) and B > D and F > D and B < C and F < E and A >= mirande2['c'].iloc[
+                    0] and verif == 0 and ordre == True and mini_pourcent == True:
                     # ----- condition pour garantir la forme de l'iete  -----#
+
                     # ----- essaye de determiner les point d'intersection de la LDC -----#
                     try:
                         J = line_intersection((AJ, BJ), (CJ, DJ))
@@ -517,126 +579,131 @@ def Finder_IETE(time1, time_name1, start1):
                         # ----- creation de la fonction Moyenne mobile  -----#
 
                     # ----- condition pour filtrer iete  -----#
-                    if (I[1] > B and J[1] > F and moyenne_epaule1 <= moyenne_tete / 2 and moyenne_epaule2 <= moyenne_tete / 2 and moyenne_epaule1 >= moyenne_tete / 4 and moyenne_epaule2 >= moyenne_tete / 4 ):
-                        nom_place = 'etape 2'
-                        if (accept == True):
-                            nom_place = 'etape 3'
-                            if (df['c'].values[-2] <= J[1] + (moyenne_tete) / 4):
-                                nom_place = 'etape 4'
-                                if (df['c'].values[-2] >= J[1] - (moyenne_tete) / 4):
-                                    nom_place = 'etape 5'
-                                    if (df['c'].values[-1] <= J[1] + (moyenne_tete) / 4) :
-                                        nom_place = 'etape 6'
-                                        if (df['c'].values[-1] >= J[1] - (moyenne_tete) / 4 and G >= 1):
-                                            nom_place = 'etape 7'
-                                            # ----- condition pour filtrer iete  -----#
-                                            # ----- systeme de notation des iete en fonction de la beaute et de la perfection de realisation  -----#
-                                            note = 0
-                                            pourcentage_10_tete = (10 * (local_max[-1] - local_max[-2])) / 100
-                                            pourcentage_10_ep1 = (20 * (local_max[-2] - I[0])) / 100
-                                            pourcentage_10_ep2 = (20 * (J[0] - local_max[-1])) / 100
-                                            pourcentage_20_moy_epaule = (30 * moyenne_des_epaule) / 100
+                    if I[1] > B and J[
+                        1] > F and moyenne_epaule1 <= moyenne_tete / 2 and moyenne_epaule2 <= moyenne_tete / 2 and moyenne_epaule1 >= moyenne_tete / 4 and moyenne_epaule2 >= moyenne_tete / 4 and accept == True and \
+                            df['c'].values[-2] <= J[1] + (moyenne_tete) / 4 and df['c'].values[-2] >= J[1] - (moyenne_tete) / 4 and \
+                            df['c'].values[-1] <= J[1] + (moyenne_tete) / 4 and df['c'].values[-1] >= J[1] - (moyenne_tete) / 4 and G >= 1:
+                        # ----- condition pour filtrer iete  -----#
 
-                                            debugage = []
+                        # ----- systeme de notation des iete en fonction de la beaute et de la perfection de realisation  -----#
+                        note = 0
+                        pourcentage_10_tete = (10 * (local_max[-1] - local_max[-2])) / 100
+                        pourcentage_10_ep1 = (20 * (local_max[-2] - I[0])) / 100
+                        pourcentage_10_ep2 = (20 * (J[0] - local_max[-1])) / 100
+                        pourcentage_20_moy_epaule = (30 * moyenne_des_epaule) / 100
 
-                                            if local_min[-2] < (local_max[-2] + local_max[-1]) / 2 + pourcentage_10_tete and local_min[
-                                                -2] > (local_max[-2] + local_max[
-                                                -1]) / 2 - pourcentage_10_tete:  # D doit etre au millieu (10% de marge)
-                                                note = note + 3
-                                                debugage.append(1)
+                        debugage = []
 
-                                            if local_min[-3] < (I[0] + local_max[-2]) / 2 + pourcentage_10_ep1 and local_min[-3] > (
-                                                    I[0] + local_max[-2]) / 2 - pourcentage_10_ep1:  # B doit etre au millieu (10% de marge)
-                                                note = note + 1
-                                                debugage.append(2)
+                        if local_min[-2] < (local_max[-2] + local_max[-1]) / 2 + pourcentage_10_tete and local_min[
+                            -2] > (local_max[-2] + local_max[
+                            -1]) / 2 - pourcentage_10_tete:  # D doit etre au millieu (10% de marge)
+                            note = note + 3
+                            debugage.append(1)
 
-                                            if local_min[-1] < (J[0] + local_max[-1]) / 2 + pourcentage_10_ep2 and local_min[-1] > (
-                                                    J[0] + local_max[-1]) / 2 - pourcentage_10_ep2:  # F doit etre au millieu (10% de marge)
-                                                note = note + 1
-                                                debugage.append(3)
+                        if local_min[-3] < (I[0] + local_max[-2]) / 2 + pourcentage_10_ep1 and local_min[-3] > (
+                                I[0] + local_max[-2]) / 2 - pourcentage_10_ep1:  # B doit etre au millieu (10% de marge)
+                            note = note + 1
+                            debugage.append(2)
 
-                                            if moyenne_epaule1 < moyenne_des_epaule + pourcentage_20_moy_epaule and moyenne_epaule1 > moyenne_des_epaule - pourcentage_20_moy_epaule and moyenne_epaule2 < moyenne_des_epaule + pourcentage_20_moy_epaule and moyenne_epaule2 > moyenne_des_epaule - pourcentage_20_moy_epaule:  # les epaules doivent etre de presque meme hauteur
-                                                note = note + 1
-                                                debugage.append(4)
+                        if local_min[-1] < (J[0] + local_max[-1]) / 2 + pourcentage_10_ep2 and local_min[-1] > (
+                                J[0] + local_max[-1]) / 2 - pourcentage_10_ep2:  # F doit etre au millieu (10% de marge)
+                            note = note + 1
+                            debugage.append(3)
 
-                                            if B < F:
-                                                if (((F - B) * 100) / moyenne_tete) <= 30:
-                                                    note = note + 2
-                                                    debugage.append(5)
+                        if moyenne_epaule1 < moyenne_des_epaule + pourcentage_20_moy_epaule and moyenne_epaule1 > moyenne_des_epaule - pourcentage_20_moy_epaule and moyenne_epaule2 < moyenne_des_epaule + pourcentage_20_moy_epaule and moyenne_epaule2 > moyenne_des_epaule - pourcentage_20_moy_epaule:  # les epaules doivent etre de presque meme hauteur
+                            note = note + 1
+                            debugage.append(4)
 
-                                            if B > F:
-                                                if (((B - F) * 100) / moyenne_tete) <= 30:
-                                                    note = note + 2
-                                                    debugage.append(5)
+                        if B < F:
+                            if (((F - B) * 100) / moyenne_tete) <= 30:
+                                note = note + 2
+                                debugage.append(5)
 
-                                            if B == F:
-                                                note = note + 2
-                                                debugage.append(5)
+                        if B > F:
+                            if (((B - F) * 100) / moyenne_tete) <= 30:
+                                note = note + 2
+                                debugage.append(5)
 
-                                            if (local_max[-1] - local_max[-2]) > local_max[-2] - I[0] and (local_max[-1] - local_max[-2]) > \
-                                                    J[0] - local_max[-1]:  # tete plus large que les 2 epaules
-                                                note = note + 0.5
-                                                debugage.append(6)
+                        if B == F:
+                            note = note + 2
+                            debugage.append(5)
 
-                                            # if il y a pas de bruit:
-                                            # note = note + 1.5
-                                            # ----- systeme de notation des iete en fonction de la beaute et de la perfection de realisation  -----#
+                        if (local_max[-1] - local_max[-2]) > local_max[-2] - I[0] and (local_max[-1] - local_max[-2]) > \
+                                J[0] - local_max[-1]:  # tete plus large que les 2 epaules
+                            note = note + 0.5
+                            debugage.append(6)
 
-                                            # ----- regarde si la target a deja ete toucher en volatilité avant affichage  -----#
-                                            dejatoucher = False
-                                            for i in range(int(round(J[0])), place_liveprice):
-                                                if df['h'].iloc[i] <= J[1] + (moyenne_tete) / 2 and dejatoucher == False:
-                                                    dejatoucher = True
-                                                    dejatoucher2 = 'OUI'
-                                            if dejatoucher == False:
-                                                dejatoucher2 = 'NON'
-                                            # ----- regarde si la target a deja ete toucher en volatilité avant affichage  -----#
+                        # if il y a pas de bruit:
+                        # note = note + 1.5
+                        # ----- systeme de notation des iete en fonction de la beaute et de la perfection de realisation  -----#
 
-                                            # ----- initialisation des données d'aide -----#
-                                            # playsound('note.wav')
-                                            moins50p = G - ((moyenne_tete) * 250 / 100)
-                                            plus_grand = round((J[1] + (moyenne_tete) / 2), 5)
-                                            plus_petit = round(G, 5)
-                                            pourcent_chercher = ((plus_grand - plus_petit) / plus_petit) * 100
-                                            pourcent_chercher = round(pourcent_chercher, 2)
-                                            # pourcent_perdu = ((round(G, 5)- moins50p)*100)/round(G, 5)
-                                            pourcent_perdu = ((round(G, 5) - round(F, 5)) * 100) / round(G, 5)
-                                            pourcent_perdu = round(pourcent_perdu, 2)
-                                            pertenet = 0.005 * G
-                                            if pertenet < 1:
-                                                pertenet = 1
-                                            pertenet = pertenet * 2  # 2 fois puisque maker et taker
-                                            pertenet_pourcent = (pertenet * 100) / 500
-                                            pourcent_chercher2 = pourcent_chercher - pertenet_pourcent
-                                            pourcent_chercher2 = round(pourcent_chercher2, 2)
+                        # ----- regarde si la target a deja ete toucher en volatilité avant affichage  -----#
+                        dejatoucher = False
+                        for i in range(int(round(J[0])), place_liveprice):
+                            if df['h'].iloc[i] <= J[1] + (moyenne_tete) / 2 and dejatoucher == False:
+                                dejatoucher = True
+                                dejatoucher2 = 'OUI'
+                        if dejatoucher == False:
+                            dejatoucher2 = 'NON'
+                        # ----- regarde si la target a deja ete toucher en volatilité avant affichage  -----#
 
-                                            pourcent_perdu = pourcent_perdu - pertenet_pourcent
-                                            pourcent_perdu = round(pourcent_perdu, 2)
-                                            # ----- initialisation des données d'aide -----#
+                        # ----- initialisation des données d'aide -----#
+                        # playsound('note.wav')
+                        moins50p = G - (moyenne_tete) / 2
+                        plus_grand = round((J[1] + (moyenne_tete) / 2), 5)
+                        plus_petit = round(G, 5)
+                        pourcent_chercher = ((plus_grand - plus_petit) / plus_petit) * 100
+                        pourcent_chercher = round(pourcent_chercher, 2)
+                        # pourcent_perdu = ((round(G, 5)- moins50p)*100)/round(G, 5)
+                        pourcent_perdu = ((round(G, 5) - round(F, 5)) * 100) / round(G, 5)
+                        pourcent_perdu = round(pourcent_perdu, 2)
+                        pertenet = 0.005 * G
+                        if pertenet < 1:
+                            pertenet = 1
+                        pertenet = pertenet * 2  # 2 fois puisque maker et taker
+                        pertenet_pourcent = (pertenet * 100) / 500
+                        pourcent_chercher2 = pourcent_chercher - pertenet_pourcent
+                        pourcent_chercher2 = round(pourcent_chercher2, 2)
 
-                                            thread = Process(target=courbe, args=(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pourcent_perdu,note,debugage,dejatoucher2,mirande3,mirande2,J,I,moyenne_tete,moins50p,local_min,local_max,A,B,C,D,E,F,G,df,place_liveprice))
-                                            thread.start()
+                        pourcent_perdu = pourcent_perdu - pertenet_pourcent
+                        pourcent_perdu = round(pourcent_perdu, 2)
+                        # ----- initialisation des données d'aide -----#
 
+                        thread = Process(target=courbe, args=(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pourcent_perdu,note,debugage,dejatoucher2,mirande3,mirande2,J,I,moyenne_tete,moins50p,local_min,local_max,A,B,C,D,E,F,G,df,place_liveprice))
+                        thread.start()
 
-                                            # ----- enregister des données inutiles -----#
-                                            data_A.append(A)
-                                            data_B.append(B)
-                                            data_C.append(C)
-                                            data_D.append(D)
-                                            data_E.append(E)
-                                            data_F.append(F)
-                                            data_F.append(G)
-                                            data_A_ = pd.DataFrame(data_A, columns=['A'])
-                                            data_B_ = pd.DataFrame(data_B, columns=['B'])
-                                            data_C_ = pd.DataFrame(data_C, columns=['C'])
-                                            data_D_ = pd.DataFrame(data_D, columns=['D'])
-                                            data_E_ = pd.DataFrame(data_E, columns=['E'])
-                                            data_F_ = pd.DataFrame(data_E, columns=['F'])
-                                            data_G_ = pd.DataFrame(data_E, columns=['G'])
-                                            df_IETE = pd.concat([data_A_, data_B_, data_C_, data_D_, data_E_, data_F_, data_G_], axis=1)
-                                            # ----- enregister des données inutiles -----#
-                #if nom_place != 'vide':
-                    #courbe(tiker_live, time1, time_name1, mirande3, local_min, local_max, A, B, C, D, E, F, G, df, place_liveprice, nom_place, moyenne_tete, J)
+                        # ----- determiner le temps d'attente avant de reafficher une figure deja sortie (mais obsolette) -----#
+                        #multiplicateur = 0
+                        #if time_name1 == 'minute':
+                        #    multiplicateur = 60
+#
+                        #if time_name1 == 'hour':
+                        #    multiplicateur = 3600
+#
+                        #if time_name1 == 'day':
+                        #    multiplicateur = 86400
+#
+                        #temps_attente = time1 * multiplicateur
+                        #time.sleep(temps_attente)
+                        # ----- determiner le temps d'attente avant de reafficher une figure deja sortie (mais obsolette) -----#
+
+                        # ----- enregister des données inutiles -----#
+                        data_A.append(A)
+                        data_B.append(B)
+                        data_C.append(C)
+                        data_D.append(D)
+                        data_E.append(E)
+                        data_F.append(F)
+                        data_F.append(G)
+                        data_A_ = pd.DataFrame(data_A, columns=['A'])
+                        data_B_ = pd.DataFrame(data_B, columns=['B'])
+                        data_C_ = pd.DataFrame(data_C, columns=['C'])
+                        data_D_ = pd.DataFrame(data_D, columns=['D'])
+                        data_E_ = pd.DataFrame(data_E, columns=['E'])
+                        data_F_ = pd.DataFrame(data_E, columns=['F'])
+                        data_G_ = pd.DataFrame(data_E, columns=['G'])
+                        df_IETE = pd.concat([data_A_, data_B_, data_C_, data_D_, data_E_, data_F_, data_G_], axis=1)
+                        # ----- enregister des données inutiles -----#
                 print('----------------------------------------------------------------------', flush=True)
                 time.sleep(0.5)
 
@@ -650,19 +717,29 @@ heure = "hour"
 jour = "day"
 # ----- traduction francais anglais pour appel polygon -----#
 
-th1 = Process(target=Finder_IETE, args=(15,minute,start_15m))
-th2 = Process(target=Finder_IETE, args=(20,minute,start_15m))
-th3 = Process(target=Finder_IETE, args=(25,minute,start_15m))
-th4 = Process(target=Finder_IETE, args=(30,minute,start_30m))
-th5 = Process(target=Finder_IETE, args=(35,minute,start_30m))
-th6 = Process(target=Finder_IETE, args=(40,minute,start_30m))
-th7 = Process(target=Finder_IETE, args=(45,minute,start_30m))
-th8 = Process(target=Finder_IETE, args=(50,minute,start_30m))
-th9 = Process(target=Finder_IETE, args=(55,minute,start_30m))
-th10 = Process(target=Finder_IETE, args=(75,minute,start_1h))
-
-
-
+# ----- enssembles des Process à lancer en meme temps -----#
+th1 = Process(target=Finder_IETE, args=(3, heure, start_1h))
+th2 = Process(target=Finder_IETE, args=(5, heure, start_1h))
+th3 = Process(target=Finder_IETE, args=(6, heure, start_6h))
+th4 = Process(target=Finder_IETE, args=(7, heure, start_6h))
+th5 = Process(target=Finder_IETE, args=(8, heure, start_6h))
+th6 = Process(target=Finder_IETE, args=(9, heure, start_6h))
+th7 = Process(target=Finder_IETE, args=(10, heure, start_6h))
+th8 = Process(target=Finder_IETE, args=(11, heure, start_6h))
+th9 = Process(target=Finder_IETE, args=(12, heure, start_12h))
+th10 = Process(target=Finder_IETE, args=(13, heure, start_12h))
+th11 = Process(target=Finder_IETE, args=(14, heure, start_12h))
+th12 = Process(target=Finder_IETE, args=(15, heure, start_12h))
+th13 = Process(target=Finder_IETE, args=(16, heure, start_12h))
+th14 = Process(target=Finder_IETE, args=(17, heure, start_12h))
+th15 = Process(target=Finder_IETE, args=(18, heure, start_12h))
+th16 = Process(target=Finder_IETE, args=(19, heure, start_18h))  # ici nouveau
+th17 = Process(target=Finder_IETE, args=(20, heure, start_18h))
+th18 = Process(target=Finder_IETE, args=(21, heure, start_18h))
+th19 = Process(target=Finder_IETE, args=(22, heure, start_18h))
+th20 = Process(target=Finder_IETE, args=(23, heure, start_18h))
+th21 = Process(target=Finder_IETE, args=(24, heure, start_18h))
+th22 = Process(target=Finder_IETE, args=(1, jour, start_1d))
 
 th1.start()
 th2.start()
@@ -674,9 +751,18 @@ th7.start()
 th8.start()
 th9.start()
 th10.start()
-
-
-
+th11.start()
+th12.start()
+th13.start()
+th14.start()
+th15.start()
+th16.start()  # ici nouveau
+th17.start()
+th18.start()
+th19.start()
+th20.start()
+th21.start()
+th22.start()
 
 th1.join()
 th2.join()
@@ -688,5 +774,16 @@ th7.join()
 th8.join()
 th9.join()
 th10.join()
-
+th11.join()
+th12.join()
+th13.join()
+th14.join()
+th15.join()
+th16.join()  # ici nouveau
+th17.join()
+th18.join()
+th19.join()
+th20.join()
+th21.join()
+th22.join()
 
