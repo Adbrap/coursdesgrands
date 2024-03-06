@@ -63,6 +63,7 @@ start_1month = str(pd.Timestamp.today() + pd.DateOffset(-240))[0:10]
 # ----- initialisation de l'API key et ticker -----#
 api_key = '1KsqKOh1pTAJyWZx6Qm9pvnaNcpKVh_8'
 #api_key = 'q5li8Y5ldvlF7eP8YI7XdMWbyOA3scWJ'
+#ticker = 'RBLX'
 ticker = 'RBLX'
 tiker_live = ticker
 
@@ -163,7 +164,9 @@ def courbe(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pour
                     label='50% objectif')
         plt.axhline(y=J[1] + (moyenne_tete) / 4, linestyle='--', alpha=0.3, color='black',
                     label='25% objectif')
-        plt.axhline(y=moins50p, linestyle='--', alpha=0.3, color='purple', label='-50% objectif')
+        plt.axhline(y=J[1] - ((moyenne_tete*5) / 100), xmin=0.8, xmax=1, linestyle='-', alpha=0.8, color='red', linewidth=2, label='-50% objectif')
+        plt.axhline(y=J[1] + ((moyenne_tete*30) / 100), xmin=0.8, xmax=1, linestyle='-', alpha=0.8, color='green', linewidth=2, label='-50% objectif')
+
         plt.grid(True, which='major', color='#666666', linestyle='-', alpha=0.1)
         taille_diviser = (local_max[-1] - local_max[-2]) / (local_min[-2] - local_max[-2])
         # point_max = J[0]+((J[0] - I[0])/taille_diviser)
@@ -175,7 +178,9 @@ def courbe(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pour
                  wrap=True)
         plt.text(J[0], J[1] + (moyenne_tete) / 2, f"{round((J[1] + (moyenne_tete) / 2), 5)}",
                  ha='left', style='normal', size=10.5, color='red', wrap=True)
-        plt.text(J[0], moins50p, f"{round(moins50p, 5)}", ha='left', style='normal', size=10.5,
+        plt.text(J[0], J[1] + ((moyenne_tete*30) / 100), f"{round(J[1] + ((moyenne_tete*30) / 100), 5)}", ha='left', style='normal', size=10.5,
+                 color='red', wrap=True)
+        plt.text(J[0], J[1] - ((moyenne_tete*5) / 100), f"{round(J[1] - ((moyenne_tete*30) / 100), 5)}", ha='left', style='normal', size=10.5,
                  color='red', wrap=True)
         plt.text(local_min[-3], B, "B", ha='left', style='normal', size=10.5, color='red',
                  wrap=True)
@@ -201,10 +206,12 @@ def courbe(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pour
         plt.scatter(local_min[-2], D, color='blue')
         plt.scatter(local_max[-1], E, color='blue')
         plt.scatter(local_min[-1], F, color='blue')
+        plt.scatter(J[0], J[1], color='green')
+        plt.scatter(I[0], I[1], color='green')
         #plt.scatter(x=highs.index, y=highs['c'], alpha=0.5)
         #plt.scatter(x=lows.index, y=lows['c'], alpha=0.5)
         argument2 = round((J[1] + (moyenne_tete) / 2), 5)
-        argument3 = round(moins50p, 5)
+        argument3 = round(J[1] + ((moyenne_tete*30) / 100), 5)
         # Paramètres des boutons
         button_width = 0.2
         button_height = 0.075
