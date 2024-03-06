@@ -4861,8 +4861,7 @@ do
   python3 /home/ubuntu/Desktop/deep/JIG1.py &
   python3 /home/ubuntu/Desktop/deep/JILL1.py &
   python3 /home/ubuntu/Desktop/deep/JIRE1.py &
-  python3 /home/ubuntu/Desktop/deep/JJA1.py &
-  python3 /home/ubuntu/Desktop/deep/%launcher%
+  python3 /home/ubuntu/Desktop/deep/JJA1.py 
 
 clear
 done

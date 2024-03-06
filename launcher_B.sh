@@ -4864,8 +4864,7 @@ do
   python3 /home/ubuntu/Desktop/deep/ZWS1.py &
   python3 /home/ubuntu/Desktop/deep/ZYME1.py &
   python3 /home/ubuntu/Desktop/deep/ZYNE1.py &
-  python3 /home/ubuntu/Desktop/deep/ZYXI1.py &
-  python3 /home/ubuntu/Desktop/deep/%launcher%
+  python3 /home/ubuntu/Desktop/deep/ZYXI1.py 
 
 clear
 done

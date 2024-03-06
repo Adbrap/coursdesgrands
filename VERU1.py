@@ -52,17 +52,15 @@ start_5m = str(pd.Timestamp.today() + pd.DateOffset(-15))[0:10]
 start_15m = str(pd.Timestamp.today() + pd.DateOffset(-15))[0:10]
 start_30m = str(pd.Timestamp.today() + pd.DateOffset(-15))[0:10]
 start_1h = str(pd.Timestamp.today() + pd.DateOffset(-15))[0:10]
-start_6h = str(pd.Timestamp.today() + pd.DateOffset(-25))[0:10]
-start_12h = str(pd.Timestamp.today() + pd.DateOffset(-35))[0:10]
-start_18h = str(pd.Timestamp.today() + pd.DateOffset(-50))[0:10]
+start_6h = str(pd.Timestamp.today() + pd.DateOffset(-20))[0:10]
 start_1d = str(pd.Timestamp.today() + pd.DateOffset(-50))[0:10]
 start_1week = str(pd.Timestamp.today() + pd.DateOffset(-120))[0:10]
 start_1month = str(pd.Timestamp.today() + pd.DateOffset(-240))[0:10]
 # ----- initialisation des temps de recherches -----#
 
 # ----- initialisation de l'API key et ticker -----#
-api_key = '1KsqKOh1pTAJyWZx6Qm9pvnaNcpKVh_8'
-#api_key = 'q5li8Y5ldvlF7eP8YI7XdMWbyOA3scWJ'
+#api_key = '1KsqKOh1pTAJyWZx6Qm9pvnaNcpKVh_8'
+api_key = 'q5li8Y5ldvlF7eP8YI7XdMWbyOA3scWJ'
 ticker = 'VERU'
 tiker_live = ticker
 
@@ -718,28 +716,29 @@ jour = "day"
 # ----- traduction francais anglais pour appel polygon -----#
 
 # ----- enssembles des Process à lancer en meme temps -----#
-th1 = Process(target=Finder_IETE, args=(3, heure, start_1h))
-th2 = Process(target=Finder_IETE, args=(5, heure, start_1h))
-th3 = Process(target=Finder_IETE, args=(6, heure, start_6h))
-th4 = Process(target=Finder_IETE, args=(7, heure, start_6h))
-th5 = Process(target=Finder_IETE, args=(8, heure, start_6h))
-th6 = Process(target=Finder_IETE, args=(9, heure, start_6h))
-th7 = Process(target=Finder_IETE, args=(10, heure, start_6h))
-th8 = Process(target=Finder_IETE, args=(11, heure, start_6h))
-th9 = Process(target=Finder_IETE, args=(12, heure, start_12h))
-th10 = Process(target=Finder_IETE, args=(13, heure, start_12h))
-th11 = Process(target=Finder_IETE, args=(14, heure, start_12h))
-th12 = Process(target=Finder_IETE, args=(15, heure, start_12h))
-th13 = Process(target=Finder_IETE, args=(16, heure, start_12h))
-th14 = Process(target=Finder_IETE, args=(17, heure, start_12h))
-th15 = Process(target=Finder_IETE, args=(18, heure, start_12h))
-th16 = Process(target=Finder_IETE, args=(19, heure, start_18h))  # ici nouveau
-th17 = Process(target=Finder_IETE, args=(20, heure, start_18h))
-th18 = Process(target=Finder_IETE, args=(21, heure, start_18h))
-th19 = Process(target=Finder_IETE, args=(22, heure, start_18h))
-th20 = Process(target=Finder_IETE, args=(23, heure, start_18h))
-th21 = Process(target=Finder_IETE, args=(24, heure, start_18h))
-th22 = Process(target=Finder_IETE, args=(1, jour, start_1d))
+th1 = Process(target=Finder_IETE, args=(15, minute, start_15m))
+th2 = Process(target=Finder_IETE, args=(20, minute, start_15m))
+th3 = Process(target=Finder_IETE, args=(25, minute, start_15m))
+th4 = Process(target=Finder_IETE, args=(30, minute, start_30m))
+th5 = Process(target=Finder_IETE, args=(35, minute, start_30m))
+th6 = Process(target=Finder_IETE, args=(45, minute, start_30m))
+th7 = Process(target=Finder_IETE, args=(1, heure, start_1h))
+th8 = Process(target=Finder_IETE, args=(2, heure, start_1h))
+th9 = Process(target=Finder_IETE, args=(4, heure, start_1h))
+th10 = Process(target=Finder_IETE, args=(40, minute, start_30m))
+th11 = Process(target=Finder_IETE, args=(50, minute, start_30m))
+th12 = Process(target=Finder_IETE, args=(55, minute, start_30m))
+th13 = Process(target=Finder_IETE, args=(30, minute, start_30m))
+th14 = Process(target=Finder_IETE, args=(75, minute, start_1h))
+th15 = Process(target=Finder_IETE, args=(90, minute, start_1h))
+th16 = Process(target=Finder_IETE, args=(105, minute, start_1h))  # ici nouveau
+th17 = Process(target=Finder_IETE, args=(135, minute, start_1h))
+th18 = Process(target=Finder_IETE, args=(150, minute, start_1h))
+th19 = Process(target=Finder_IETE, args=(165, minute, start_1h))
+th20 = Process(target=Finder_IETE, args=(195, minute, start_1h))
+th21 = Process(target=Finder_IETE, args=(210, minute, start_1h))
+th22 = Process(target=Finder_IETE, args=(225, minute, start_1h))
+th23 = Process(target=Finder_IETE, args=(255, minute, start_1h))
 
 th1.start()
 th2.start()
@@ -763,6 +762,7 @@ th19.start()
 th20.start()
 th21.start()
 th22.start()
+th23.start()
 
 th1.join()
 th2.join()
@@ -786,4 +786,5 @@ th19.join()
 th20.join()
 th21.join()
 th22.join()
+th23.join()
 
