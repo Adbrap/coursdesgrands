@@ -22,9 +22,35 @@ import sys
 import subprocess
 import tempfile
 from ftplib import FTP
+from ib_insync import *
+from pystyle import Add, Center, Anime, Colors, Colorate, Write, System
+import datetime
+
 
 # ----- initialisation des modules -----#
+def achat(ticker,target2,target):
+    target2 = float(target2)
+    target = float(target)
+    ib = IB()
+    ib.connect('92.154.106.15', 7497, clientId=2)
 
+    # Créer un contrat pour l'action Tesla
+    contract = Stock(ticker, "SMART", "USD")
+
+    market_data = ib.reqMktData(contract)
+    ib.sleep(1)  # Pause pour s'assurer que les données sont reçues
+    price = market_data.last
+
+    # Calculer le nombre d'actions à acheter
+    amount_to_spend = 1000  # Le montant en dollars que vous voulez dépenser
+    quantity = amount_to_spend // price  # Utilisez la division entière pour obtenir un entier
+
+    # Créer un ordre d'achat avec quantité d'action
+    order = MarketOrder("BUY", quantity)
+
+    # Placer l'ordre pour le compte spécifique
+    trade = ib.placeOrder(contract, order)
+    ib.sleep(1)
 # ----- initialisation des couleurs du modules pystyle -----#
 class bcolors:
     OK = '\033[92m'  # GREEN
@@ -63,7 +89,6 @@ start_1month = str(pd.Timestamp.today() + pd.DateOffset(-240))[0:10]
 # ----- initialisation de l'API key et ticker -----#
 api_key = '1KsqKOh1pTAJyWZx6Qm9pvnaNcpKVh_8'
 #api_key = 'q5li8Y5ldvlF7eP8YI7XdMWbyOA3scWJ'
-#ticker = 'MDIV'
 ticker = 'MDIV'
 tiker_live = ticker
 
@@ -81,50 +106,10 @@ def save_figure(event):
     #button1.color = '#94ffa4'
     #button1.hovercolor = '#94ffa4'
 
-
-
-def envoie_ticker(ticker, time1, time_name1):
-    # Les mots à enregistrer
-    words = [f'{ticker}', f'{time1}', f'{time_name1}']
-
-    # Enregistrement des mots dans un fichier local en mode append
-    with open('mots.txt', 'w') as file:
-        for word in words:
-            file.write(word + '\n')
-
-    # Informations de connexion FTP
-    ftp_host = 'ftp.cluster030.hosting.ovh.net'
-    ftp_user = 'abtrado'
-    ftp_password = '4a9dFrYgfrSB'
-
-    # Connexion au serveur FTP
-    ftp = FTP(ftp_host)
-    ftp.login(user=ftp_user, passwd=ftp_password)
-
-    # Envoi du fichier "mots.txt" vers le serveur FTP
-    with open('mots.txt', 'rb') as file:
-        ftp.storbinary('STOR mots.txt', file)
-
-    # Fermeture de la connexion FTP
-    ftp.quit()
-
-
-def purchase(event):
-    global argument2
-    global argument3
-    global tiker_live
-    global time2
-    global time_name2
-    print("Achat en Cours.")
-    #button2.color = '#ff9494'
-    #button2.hovercolor = '#ff9494'
-    #chemin_script = "test.py"
-    #subprocess.Popen(['gnome-terminal', '--tab', '--title', f'{tiker_live}', '--', 'python3', '/home/mat/Bureau/perso/connard/test.py', tiker_live, str(argument2), str(argument3)])
-    envoie_ticker(tiker_live,time2,time_name2)
 # ----- initialisation des fonctions lies au boutons -----#
 
 
-def courbe(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pourcent_perdu,note,debugage,dejatoucher2,mirande3,mirande2,J,I,moyenne_tete,moins50p,local_min,local_max,A,B,C,D,E,F,G,df,place_liveprice):
+def courbe(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pourcent_perdu,note,debugage,dejatoucher2,mirande3,mirande2,J,I,moyenne_tete,moins50p,local_min,local_max,A,B,C,D,E,F,G,df,place_liveprice,tout_savoir):
     global argument2
     global argument3
     # ----- creer la figure et l'affichage MATPLOTLIB -----#
@@ -148,7 +133,7 @@ def courbe(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pour
             fig.patch.set_alpha(0.3)
         plt.plot([], [], ' ')
         plt.title(
-            f'IETE : {tiker_live} | {time1} {time_name1} | +{pourcent_chercher}% BRUT | +{pourcent_chercher2}% NET | -{pourcent_perdu}% NET | {note}/10 | {debugage} | {dejatoucher2}',
+            f'IETE : {tiker_live} | {time1} {time_name1} | +{pourcent_chercher}% depuis LDC | +{pourcent_chercher2}% depuis Jaune | -{pourcent_perdu}% MINI | {note}/10 | {tout_savoir} | {dejatoucher2}',
             fontweight="bold", color='black')
         mirande3['c'].plot(color=['blue'], label='Clotures')
         # df['sma_20'].plot(label='Ema 20', linestyle='-', linewidth=1.2, color='green')
@@ -166,7 +151,6 @@ def courbe(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pour
                     label='25% objectif')
         plt.axhline(y=J[1] - ((moyenne_tete*5) / 100), xmin=0.8, xmax=1, linestyle='-', alpha=0.8, color='red', linewidth=2, label='-50% objectif')
         plt.axhline(y=J[1] + ((moyenne_tete*30) / 100), xmin=0.8, xmax=1, linestyle='-', alpha=0.8, color='green', linewidth=2, label='-50% objectif')
-
         plt.grid(True, which='major', color='#666666', linestyle='-', alpha=0.1)
         taille_diviser = (local_max[-1] - local_max[-2]) / (local_min[-2] - local_max[-2])
         # point_max = J[0]+((J[0] - I[0])/taille_diviser)
@@ -177,10 +161,12 @@ def courbe(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pour
         plt.text(local_max[-3], A, "A", ha='left', style='normal', size=10.5, color='red',
                  wrap=True)
         plt.text(J[0], J[1] + (moyenne_tete) / 2, f"{round((J[1] + (moyenne_tete) / 2), 5)}",
-                 ha='left', style='normal', size=10.5, color='red', wrap=True)
-        plt.text(J[0], J[1] + ((moyenne_tete*30) / 100), f"{round(J[1] + ((moyenne_tete*30) / 100), 5)}", ha='left', style='normal', size=10.5,
-                 color='red', wrap=True)
-        plt.text(J[0], J[1] - ((moyenne_tete*5) / 100), f"{round(J[1] - ((moyenne_tete*30) / 100), 5)}", ha='left', style='normal', size=10.5,
+                 ha='left', style='normal', size=10.5, color='blue', wrap=True)
+        plt.text(J[0], J[1] + (moyenne_tete), f"{round((J[1] + (moyenne_tete)), 5)}",
+                 ha='left', style='normal', size=10.5, color='blue', wrap=True)
+        plt.text(J[0], J[1] + ((moyenne_tete*30) / 100), f"30 ({round(J[1] + ((moyenne_tete*30) / 100), 5)}) / 60 ({round(J[1] + ((moyenne_tete*60) / 100), 5)})", ha='left', style='normal', size=10.5,
+                 color='green', wrap=True)
+        plt.text(J[0], J[1] - ((moyenne_tete*5) / 100), f"5 ({round(J[1] - ((moyenne_tete*5) / 100), 5)})", ha='left', style='normal', size=10.5,
                  color='red', wrap=True)
         plt.text(local_min[-3], B, "B", ha='left', style='normal', size=10.5, color='red',
                  wrap=True)
@@ -223,14 +209,16 @@ def courbe(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pour
         # Création du bouton pour acheter
         button_ax2 = plt.axes([0.9 - button_width, 0.001, button_width, button_height], facecolor='none')
         button2 = plt.Button(button_ax2, 'Acheter', color='white', hovercolor='lightgray')
-        button2.on_clicked(purchase)
+        target1 = J[1] + ((moyenne_tete*30) / 100)
+        target2 = J[1] - ((moyenne_tete*5) / 100)
+        button2.on_clicked(lambda event: achat(ticker, target1, target2))
+        now = datetime.datetime.now()
+        #plt.savefig(f'capture/{now.strftime("%Hh:%M:%S")}')
         plt.show()
+
 
     # ----- creer la figure et l'affichage MATPLOTLIB -----#
     except:
-        remplacement('%log%',
-                     f'{datetime.datetime.now()} PROBLEME D\'AFFICHAGE MATPLOTLIB SUR: {ticker} {time1} {time_name1}\n%log%',
-                     'Log.txt', f'Log.txt')
         Write.Print("<⛔> <⛔> <⛔> <⛔> ERREUR CRITIQUE <⛔> <⛔> <⛔> <⛔>", Colors.red, interval=0.000)
         print('')
 
@@ -255,25 +243,6 @@ def line_intersection(line1, line2):
 
 # ----- fonction pour trouver les point intersection de la ligne de coup et de la Courbe -----#
 
-# ----- fonction pour remplacer et ecrire dans le fichier log -----#
-def remplacement(nom, remplace, fichier_lecture, fichier_modif):  # pour remplacer les varible de la feuille imprimable
-    try:
-        file = open(f"{fichier_lecture}", "r+")
-        a = str(file.read())
-        file.close()
-        file = open(f"{fichier_modif}", "w")
-
-        a = a.replace(f'{nom}', f'{remplace}')
-        file.write(a)
-        file.close()
-        # Write.Print("  Remplacement reussi  !", Colors.green, interval=0.000)
-        print('')
-    except:
-        # Write.Print("!! Remplacement echoué  !!", Colors.red, interval=0.000)
-        print('')
-
-
-# ----- fonction pour remplacer et ecrire dans le fichier log -----#
 
 # ----- fonction Principale -----#
 def Finder_IETE(time1, time_name1, start1):
@@ -292,13 +261,10 @@ def Finder_IETE(time1, time_name1, start1):
     with my_lock:
         try:
             api_url_livePrice = f'http://api.polygon.io/v2/last/trade/{tiker_live}?apiKey={api_key}'
-            #api_url_livePrice = 'http://ab-trading.fr/data.json'
             data = requests.get(api_url_livePrice).json()
             df_livePrice = pd.DataFrame(data)
 
-            # api_url_OHLC = f'http://api.polygon.io/v2/aggs/ticker/{ticker}/range/15/minute/2022-07-01/2022-07-15?adjusted=true&sort=asc&limit=30000&apiKey={api_key}'
             api_url_OHLC = f'http://api.polygon.io/v2/aggs/ticker/{ticker}/range/{time1}/{time_name1}/{start1}/{end}?adjusted=true&limit=50000&apiKey={api_key}'
-            #api_url_OHLC = 'http://ab-trading.fr/data2.json'
 
             data = requests.get(api_url_OHLC).json()
             df = pd.DataFrame(data['results'])
@@ -310,9 +276,6 @@ def Finder_IETE(time1, time_name1, start1):
             livePrice = df_livePrice['results'].iloc[la_place_de_p]
             passed1 = True
         except:
-            remplacement('%log%',
-                         f'{datetime.datetime.now()} PROBLEME DE CONNECTION AU TITRE ET (OU) DE RESULTAT SUR: {ticker} {time1} {time_name1}\n%log%',
-                         'Log.txt', f'Log.txt')
             Write.Print("<⛔> <⛔> <⛔> <⛔> ERREUR CRITIQUE <⛔> <⛔> <⛔> <⛔>", Colors.red, interval=0.000)
             print('')
 
@@ -353,11 +316,7 @@ def Finder_IETE(time1, time_name1, start1):
         # ----- creation des locals(min/max) -----#
         local_max = argrelextrema(df['c'].values, np.greater, order=1, mode='clip')[0]
         local_min = argrelextrema(df['c'].values, np.less, order=1, mode='clip')[0]
-        local_max1 = argrelextrema(df['c'].values, np.greater, order=1, mode='clip')[0]
-        local_min1 = argrelextrema(df['c'].values, np.less, order=1, mode='clip')[0]
 
-        local_max2 = argrelextrema(df['c'].values, np.greater, order=1, mode='clip')[0]
-        local_min2 = argrelextrema(df['c'].values, np.less, order=1, mode='clip')[0]
         # ----- creation des locals(min/max) -----#
 
         # ----- suppression des points morts de la courbe -----#
@@ -389,11 +348,6 @@ def Finder_IETE(time1, time_name1, start1):
             len1 = len(local_min)
             len2 = len(local_max)
 
-        highs = df.iloc[local_max, :]
-        lows = df.iloc[local_min, :]
-        highs1 = df.iloc[test_max, :]
-        lows1 = df.iloc[test_min, :]
-
         decalage = 0
         # ----- suppression des points morts de la courbe -----#
 
@@ -408,13 +362,6 @@ def Finder_IETE(time1, time_name1, start1):
             F = float(df['c'].iloc[local_min[-1]])
             G = float(livePrice)
 
-            data_A = []
-            data_B = []
-            data_C = []
-            data_D = []
-            data_E = []
-            data_F = []
-            data_G = []
 
             passed2 = True
 
@@ -539,16 +486,10 @@ def Finder_IETE(time1, time_name1, start1):
                     ordre = True
                 # ----- condition pour que l'ordre des point de la figure soit respecter -----#
 
-                # ----- condition pour que la tete fasse au minimum 2.8% -----#
-                mini_pourcent = False
-                if ((((C + E) / 2) - D) * 100) / D >= 2.8:
-                    mini_pourcent = True
-                # ----- condition pour que la tete fasse au minimum 2.8% -----#
-
                 # ----- condition pour garantir la forme de l'iete  -----#
                 if (C - B) < (C - D) and (C - B) < (E - D) and (E - F) < (E - D) and (E - F) < (
                         C - D) and B > D and F > D and B < C and F < E and A >= mirande2['c'].iloc[
-                    0] and verif == 0 and ordre == True and mini_pourcent == True:
+                    0] and verif == 0 and ordre == True:
                     # ----- condition pour garantir la forme de l'iete  -----#
 
                     # ----- essaye de determiner les point d'intersection de la LDC -----#
@@ -585,11 +526,31 @@ def Finder_IETE(time1, time_name1, start1):
                         df.tail()
                         # ----- creation de la fonction Moyenne mobile  -----#
 
+                        # ----- condition pour que la tete fasse au minimum 2.8% -----#
+                        plus_grand = round((J[1] + ((moyenne_tete*30) / 100)), 5)
+                        plus_petit = J[1]
+                        pourcent_chercher = ((plus_grand - plus_petit) / plus_petit) * 100
+                        pourcent_chercher = round(pourcent_chercher, 2)
+
+
+                        prix_chercher = df['c'].values[-2] + (df['c'].values[-2] * 0.015)
+                        difference_chercher = prix_chercher - J[1]
+                        tout_savoir = (difference_chercher*100)/moyenne_tete
+                        tout_savoir = round(tout_savoir,2)
+
+
+                        mini_pourcent = False
+                        if pourcent_chercher >= 1.5:
+                            mini_pourcent = True
+                        # ----- condition pour que la tete fasse au minimum 2.8% -----#
+
+
+
                     # ----- condition pour filtrer iete  -----#
                     if I[1] > B and J[
                         1] > F and moyenne_epaule1 <= moyenne_tete / 2 and moyenne_epaule2 <= moyenne_tete / 2 and moyenne_epaule1 >= moyenne_tete / 4 and moyenne_epaule2 >= moyenne_tete / 4 and accept == True and \
-                            df['c'].values[-2] <= J[1] + (moyenne_tete) / 4 and df['c'].values[-2] >= J[1] - (moyenne_tete) / 4 and \
-                            df['c'].values[-1] <= J[1] + (moyenne_tete) / 4 and df['c'].values[-1] >= J[1] - (moyenne_tete) / 4 and G >= 1:
+                            df['c'].values[-2] <= J[1] + (moyenne_tete) / 4 and df['c'].values[-2] >= J[1] and \
+                            df['c'].index[-2] != local_min[-1] and G >= 1 and J[0] >= local_min[-1]:
                         # ----- condition pour filtrer iete  -----#
 
                         # ----- systeme de notation des iete en fonction de la beaute et de la perfection de realisation  -----#
@@ -657,60 +618,22 @@ def Finder_IETE(time1, time_name1, start1):
                         # ----- initialisation des données d'aide -----#
                         # playsound('note.wav')
                         moins50p = G - (moyenne_tete) / 2
-                        plus_grand = round((J[1] + (moyenne_tete) / 2), 5)
-                        plus_petit = round(G, 5)
-                        pourcent_chercher = ((plus_grand - plus_petit) / plus_petit) * 100
-                        pourcent_chercher = round(pourcent_chercher, 2)
-                        # pourcent_perdu = ((round(G, 5)- moins50p)*100)/round(G, 5)
-                        pourcent_perdu = ((round(G, 5) - round(F, 5)) * 100) / round(G, 5)
-                        pourcent_perdu = round(pourcent_perdu, 2)
-                        pertenet = 0.005 * G
-                        if pertenet < 1:
-                            pertenet = 1
-                        pertenet = pertenet * 2  # 2 fois puisque maker et taker
-                        pertenet_pourcent = (pertenet * 100) / 500
-                        pourcent_chercher2 = pourcent_chercher - pertenet_pourcent
+                        plus_grand = round((J[1] + ((moyenne_tete*30) / 100)), 5)
+
+                        pourcent_chercher2 = ((plus_grand - df['c'].values[-2]) / df['c'].values[-2]) * 100
                         pourcent_chercher2 = round(pourcent_chercher2, 2)
 
-                        pourcent_perdu = pourcent_perdu - pertenet_pourcent
+
+                        # pourcent_perdu = ((round(G, 5)- moins50p)*100)/round(G, 5)
+                        pourcent_perdu = ((df['c'].values[-2] - (J[1] - ((moyenne_tete*5) / 100))) * 100) / df['c'].values[-2]
                         pourcent_perdu = round(pourcent_perdu, 2)
+
                         # ----- initialisation des données d'aide -----#
 
-                        thread = Process(target=courbe, args=(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pourcent_perdu,note,debugage,dejatoucher2,mirande3,mirande2,J,I,moyenne_tete,moins50p,local_min,local_max,A,B,C,D,E,F,G,df,place_liveprice))
+                        thread = Process(target=courbe, args=(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pourcent_perdu,note,debugage,dejatoucher2,mirande3,mirande2,J,I,moyenne_tete,moins50p,local_min,local_max,A,B,C,D,E,F,G,df,place_liveprice,tout_savoir))
                         thread.start()
 
-                        # ----- determiner le temps d'attente avant de reafficher une figure deja sortie (mais obsolette) -----#
-                        #multiplicateur = 0
-                        #if time_name1 == 'minute':
-                        #    multiplicateur = 60
-#
-                        #if time_name1 == 'hour':
-                        #    multiplicateur = 3600
-#
-                        #if time_name1 == 'day':
-                        #    multiplicateur = 86400
-#
-                        #temps_attente = time1 * multiplicateur
-                        #time.sleep(temps_attente)
-                        # ----- determiner le temps d'attente avant de reafficher une figure deja sortie (mais obsolette) -----#
 
-                        # ----- enregister des données inutiles -----#
-                        data_A.append(A)
-                        data_B.append(B)
-                        data_C.append(C)
-                        data_D.append(D)
-                        data_E.append(E)
-                        data_F.append(F)
-                        data_F.append(G)
-                        data_A_ = pd.DataFrame(data_A, columns=['A'])
-                        data_B_ = pd.DataFrame(data_B, columns=['B'])
-                        data_C_ = pd.DataFrame(data_C, columns=['C'])
-                        data_D_ = pd.DataFrame(data_D, columns=['D'])
-                        data_E_ = pd.DataFrame(data_E, columns=['E'])
-                        data_F_ = pd.DataFrame(data_E, columns=['F'])
-                        data_G_ = pd.DataFrame(data_E, columns=['G'])
-                        df_IETE = pd.concat([data_A_, data_B_, data_C_, data_D_, data_E_, data_F_, data_G_], axis=1)
-                        # ----- enregister des données inutiles -----#
                 print('----------------------------------------------------------------------', flush=True)
                 time.sleep(0.5)
 
