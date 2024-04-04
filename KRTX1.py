@@ -29,28 +29,8 @@ import datetime
 
 # ----- initialisation des modules -----#
 def achat(ticker,target2,target):
-    target2 = float(target2)
-    target = float(target)
-    ib = IB()
-    ib.connect('92.154.106.15', 7497, clientId=2)
-
-    # Créer un contrat pour l'action Tesla
-    contract = Stock(ticker, "SMART", "USD")
-
-    market_data = ib.reqMktData(contract)
-    ib.sleep(1)  # Pause pour s'assurer que les données sont reçues
-    price = market_data.last
-
-    # Calculer le nombre d'actions à acheter
-    amount_to_spend = 1000  # Le montant en dollars que vous voulez dépenser
-    quantity = amount_to_spend // price  # Utilisez la division entière pour obtenir un entier
-
-    # Créer un ordre d'achat avec quantité d'action
-    order = MarketOrder("BUY", quantity)
-
-    # Placer l'ordre pour le compte spécifique
-    trade = ib.placeOrder(contract, order)
-    ib.sleep(1)
+    commande = ["python", "assets/acheter.py", ticker, target2, target]
+    subprocess.run(commande, check=True)
 # ----- initialisation des couleurs du modules pystyle -----#
 class bcolors:
     OK = '\033[92m'  # GREEN
@@ -211,8 +191,9 @@ def courbe(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pour
         target2 = J[1] - ((moyenne_tete*5) / 100)
         button2.on_clicked(lambda event: achat(ticker, target1, target2))
         now = datetime.datetime.now()
-        #plt.savefig(f'capture/{now.strftime("%Hh:%M:%S")}')
-        plt.show()
+        if not os.path.isfile(f'capture/{tiker_live} {time1} {time_name1} {round(J[1] + ((moyenne_tete*30) / 100), 5)} {round(J[1] - ((moyenne_tete*5) / 100), 5)} .png'):
+            plt.savefig(f'capture/{tiker_live} {time1} {time_name1} {round(J[1] + ((moyenne_tete*30) / 100), 5)} {round(J[1] - ((moyenne_tete*5) / 100), 5)} ')
+        #plt.show()
 
 
     # ----- creer la figure et l'affichage MATPLOTLIB -----#
@@ -625,9 +606,9 @@ def Finder_IETE(time1, time_name1, start1):
                         pourcent_perdu = round(pourcent_perdu, 2)
 
                         # ----- initialisation des données d'aide -----#
-
-                        thread = Process(target=courbe, args=(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pourcent_perdu,note,debugage,dejatoucher2,mirande3,mirande2,J,I,moyenne_tete,moins50p,local_min,local_max,A,B,C,D,E,F,G,df,place_liveprice,tout_savoir))
-                        thread.start()
+                        if pourcent_chercher2 >= 0.6:
+                            thread = Process(target=courbe, args=(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pourcent_perdu,note,debugage,dejatoucher2,mirande3,mirande2,J,I,moyenne_tete,moins50p,local_min,local_max,A,B,C,D,E,F,G,df,place_liveprice,tout_savoir))
+                            thread.start()
 
 
                 print('----------------------------------------------------------------------', flush=True)
