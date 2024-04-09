@@ -180,7 +180,7 @@ def haie(ticker,time_name1,time1,start,tp,sl):
         plt.scatter(x=df['c'].index[-2], y=df['c'].iloc[-2], alpha=0.4, color='blue')
         plt.text(df['c'].index[-1], df['c'].iloc[-1], f"G  {round(df['c'].iloc[-1], 5)}", ha='left', style='normal', size=10.5,
                  color='red', wrap=True)
-        plt.savefig(f'images2/{ticker}-{date}.png')
+        plt.savefig(f'pierres_trier/{ticker}-{date}.png')
         plt.close()
 
     if df["c"].iloc[-1] <= sl:
@@ -205,7 +205,7 @@ def haie(ticker,time_name1,time1,start,tp,sl):
         plt.scatter(x=df['c'].index[-2], y=df['c'].iloc[-2], alpha=0.4, color='blue')
         plt.text(df['c'].index[-1], df['c'].iloc[-1], f"G  {round(df['c'].iloc[-1], 5)}", ha='left', style='normal', size=10.5,
                  color='red', wrap=True)
-        plt.savefig(f'images2/{ticker}-{date}.png')
+        plt.savefig(f'pierres_trier/{ticker}-{date}.png')
         plt.close()
 
 while fini == False:

@@ -24,6 +24,7 @@ while True:
             arg2 = fichier.split()[2]
             arg3 = fichier.split()[3]
             arg4 = fichier.split()[4]
+            print(f'{arg0}')
             subprocess.run(["python3", "dino.py", arg0, arg1, arg2, arg3, arg4])
 
         # Mettre à jour la liste des fichiers actuels
