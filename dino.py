@@ -1,6 +1,5 @@
 # ----- initialisation des modules -----#
 import time
-
 import pandas as pd
 import numpy
 from tkinter import Tk
@@ -19,25 +18,19 @@ from multiprocessing import Process
 import math
 import webbrowser
 import random
+import shutil
 
-
-# ----- initialisation des couleurs du modules pystyle -----#
-class bcolors:
-    OK = '\033[92m'  # GREEN
-    WARNING = '\033[93m'  # YELLOW
-    FAIL = '\033[91m'  # RED
-    RESET = '\033[0m'  # RESET COLOR
-    PURPLE = '\033[35m'  # PURPLE
-
-w = Fore.WHITE
-b = Fore.BLACK
-g = Fore.LIGHTGREEN_EX
-y = Fore.LIGHTYELLOW_EX
-m = Fore.LIGHTMAGENTA_EX
-c = Fore.LIGHTCYAN_EX
-lr = Fore.LIGHTRED_EX
-lb = Fore.LIGHTBLUE_EX
-# ----- initialisation des couleurs du modules pystyle -----#
+def deplacer_fichier(source, destination):
+    try:
+        # Vérifie si le fichier source existe
+        if os.path.exists(source):
+            # Déplace le fichier source vers la destination
+            shutil.move(source, destination)
+            print(f"Le fichier {source} a été déplacé vers {destination}.")
+        else:
+            print(f"Le fichier {source} n'existe pas.")
+    except Exception as e:
+        print(f"Une erreur s'est produite : {e}")
 
 # ----- initialisation des temps de recherches -----#
 date = datetime.datetime.now()
@@ -207,6 +200,12 @@ def haie(ticker,time_name1,time1,start,tp,sl):
                  color='red', wrap=True)
         plt.savefig(f'pierres_trier/{ticker}-{date}.png')
         plt.close()
+
+
+chemin_source = f"trouvailles/{ticker} {minute} {time_name} {tp} {sl} .png"
+chemin_destination = f"trouvailles/en_traitement/{ticker} {minute} {time_name} {tp} {sl} .png"
+
+deplacer_fichier(chemin_source, chemin_destination)
 
 while fini == False:
     if time_name == 'minute':

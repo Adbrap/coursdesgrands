@@ -5,30 +5,33 @@ import subprocess
 # Chemin du dossier à surveiller
 dossier_a_surveiller = "trouvailles"
 
-# Liste des fichiers actuels dans le dossier
-fichiers_actuels = set(os.listdir(dossier_a_surveiller))
 
-while True:
-    # Liste des fichiers dans le dossier à surveiller
-    fichiers_nouveaux = set(os.listdir(dossier_a_surveiller))
+# Fonction pour récupérer tous les fichiers PNG dans un dossier
+def obtenir_fichiers_png(dossier):
+    fichiers_png = []
+    try:
+        # Parcourir tous les fichiers dans le dossier spécifié
+        for fichier in os.listdir(dossier):
+            # Vérifier si le fichier a l'extension .png
+            if fichier.lower().endswith('.png'):
+                # Ajouter le chemin complet du fichier à la liste
+                fichiers_png.append(os.path.join(dossier, fichier))
+    except Exception as e:
+        print(f"Une erreur s'est produite : {e}")
+    return fichiers_png
 
-    # Vérifier s'il y a de nouveaux fichiers
-    nouveaux_fichiers = fichiers_nouveaux - fichiers_actuels
 
-    if nouveaux_fichiers:
-        # Il y a de nouveaux fichiers
-        for fichier in nouveaux_fichiers:
-            # Exécuter le script avec le nom du fichier comme argument
-            arg0 = fichier.split()[0]
-            arg1 = fichier.split()[1]
-            arg2 = fichier.split()[2]
-            arg3 = fichier.split()[3]
-            arg4 = fichier.split()[4]
-            print(f'{arg0}')
-            subprocess.run(["python3", "dino.py", arg0, arg1, arg2, arg3, arg4])
+fichiers_png = obtenir_fichiers_png(dossier_a_surveiller)
+if fichiers_png:
+    # Il y a de nouveaux fichiers
+    for fichier in fichiers_png:
+        nom_fichier_sans_chemin = os.path.basename(fichier)
+        # Exécuter le script avec le nom du fichier comme argument
+        arg0 = nom_fichier_sans_chemin.split()[0]
+        arg1 = nom_fichier_sans_chemin.split()[1]
+        arg2 = nom_fichier_sans_chemin.split()[2]
+        arg3 = nom_fichier_sans_chemin.split()[3]
+        arg4 = nom_fichier_sans_chemin.split()[4]
+        print(f'{arg0}')
+        subprocess.run(["python3", "dino.py", arg0, arg1, arg2, arg3, arg4])
 
-        # Mettre à jour la liste des fichiers actuels
-        fichiers_actuels = fichiers_nouveaux
-
-    # Attendre un certain temps avant de vérifier à nouveau
-    time.sleep(300)
