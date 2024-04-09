@@ -201,18 +201,19 @@ def haie(ticker,time_name1,time1,start,tp,sl):
         plt.savefig(f'pierres_trier/{ticker}-{date}.png')
         plt.close()
 
+    if fini == True:
+        chemin_source = f"trouvailles/{ticker} {minute} {time_name} {tp} {sl} .png"
+        chemin_destination = f"trouvailles/fini/{ticker} {minute} {time_name} {tp} {sl} .png"
 
-chemin_source = f"trouvailles/{ticker} {minute} {time_name} {tp} {sl} .png"
-chemin_destination = f"trouvailles/en_traitement/{ticker} {minute} {time_name} {tp} {sl} .png"
+        deplacer_fichier(chemin_source, chemin_destination)
 
-deplacer_fichier(chemin_source, chemin_destination)
 
-while fini == False:
-    if time_name == 'minute':
-        haie(ticker,"minute",minute,start_1h,tp,sl)
-    if time_name == 'hour':
-        haie(ticker, "hour", minute, start_6h, tp, sl)
-    time.sleep(5.5)
+if time_name == 'minute':
+    haie(ticker,"minute",minute,start_1h,tp,sl)
+if time_name == 'hour':
+    haie(ticker, "hour", minute, start_6h, tp, sl)
+time.sleep(5.5)
+print(ticker)
 
 
 
