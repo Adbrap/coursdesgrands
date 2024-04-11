@@ -213,7 +213,7 @@ def courbe(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pour
         ftp_server = 'server133.web-hosting.com'
         ftp_username = 'abtrqawg'
         ftp_password = 'Km8V2Q67pUbL'
-        ftp_file_path = '/public_html/index4.html'
+        ftp_file_path = '/public_html/index.html'
 
         # Connexion au serveur FTP
         ftp = ftplib.FTP(ftp_server)
