@@ -212,7 +212,6 @@ if time_name == 'minute':
     haie(ticker,"minute",minute,start_1h,tp,sl)
 if time_name == 'hour':
     haie(ticker, "hour", minute, start_6h, tp, sl)
-time.sleep(5.5)
 print(ticker)
 
 

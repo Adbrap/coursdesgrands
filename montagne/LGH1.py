@@ -25,7 +25,7 @@ from ftplib import FTP
 from ib_insync import *
 from pystyle import Add, Center, Anime, Colors, Colorate, Write, System
 import datetime
-
+import ftplib
 
 # ----- initialisation des modules -----#
 def achat(ticker,target2,target):
@@ -86,6 +86,20 @@ def save_figure(event):
 
 # ----- initialisation des fonctions lies au boutons -----#
 
+def increment_value(html_content, selector):
+    start_tag = f'<td>{selector}</td>'
+    end_tag = '</td>'
+
+    start_index = html_content.find(start_tag)
+    if start_index != -1:
+        start_index = html_content.find('<td>', start_index + len(start_tag))
+        end_index = html_content.find(end_tag, start_index)
+        if start_index != -1 and end_index != -1:
+            value = int(html_content[start_index + 4:end_index])
+            new_value = value + 1
+            html_content = html_content[:start_index + 4] + str(new_value) + html_content[end_index:]
+
+    return html_content
 
 def courbe(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pourcent_perdu,note,debugage,dejatoucher2,mirande3,mirande2,J,I,moyenne_tete,moins50p,local_min,local_max,A,B,C,D,E,F,G,df,place_liveprice,tout_savoir):
     global argument2
@@ -194,6 +208,39 @@ def courbe(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pour
         if not os.path.isfile(f'trouvailles/{tiker_live} {time1} {time_name1} {round(J[1] + ((moyenne_tete*30) / 100), 5)} {round(J[1] - ((moyenne_tete*5) / 100), 5)} .png'):
             plt.savefig(f'trouvailles/{tiker_live} {time1} {time_name1} {round(J[1] + ((moyenne_tete*30) / 100), 5)} {round(J[1] - ((moyenne_tete*5) / 100), 5)} .png')
         #plt.show()
+
+        # Informations de connexion FTP
+        ftp_server = 'server133.web-hosting.com'
+        ftp_username = 'abtrqawg'
+        ftp_password = 'Km8V2Q67pUbL'
+        ftp_file_path = '/public_html/index.html'
+
+        # Connexion au serveur FTP
+        ftp = ftplib.FTP(ftp_server)
+        ftp.login(ftp_username, ftp_password)
+
+        # Téléchargement du fichier HTML depuis le serveur FTP
+        with open('fichier_local.html', 'wb') as file:
+            ftp.retrbinary(f'RETR {ftp_file_path}', file.write)
+
+        # Lire le contenu du fichier HTML local
+        with open('fichier_local.html', 'r') as file:
+            html_content = file.read()
+
+        # Incrémenter les valeurs spécifiées
+        html_content = increment_value(html_content, 'Nombre de trades pris')
+        html_content = increment_value(html_content, 'Nombre de trades pris*')
+
+        # Écrire le contenu modifié dans le fichier HTML local
+        with open('fichier_local.html', 'w') as file:
+            file.write(html_content)
+
+        # Téléverser le fichier HTML modifié sur le serveur FTP
+        with open('fichier_local.html', 'rb') as file:
+            ftp.storbinary(f'STOR {ftp_file_path}', file)
+
+        # Fermer la connexion FTP
+        ftp.quit()
 
 
     # ----- creer la figure et l'affichage MATPLOTLIB -----#
