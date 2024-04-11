@@ -213,7 +213,7 @@ def courbe(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pour
         ftp_server = 'server133.web-hosting.com'
         ftp_username = 'abtrqawg'
         ftp_password = 'Km8V2Q67pUbL'
-        ftp_file_path = '/public_html/index.html'
+        ftp_file_path = '/public_html/index4.html'
 
         # Connexion au serveur FTP
         ftp = ftplib.FTP(ftp_server)
@@ -230,6 +230,11 @@ def courbe(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pour
         # Incrémenter les valeurs spécifiées
         html_content = increment_value(html_content, 'Nombre de trades pris')
         html_content = increment_value(html_content, 'Nombre de trades pris*')
+
+        # Ajouter la date et l'heure actuelles pour "Dernier trade a ete prise a : "
+        now = datetime.now()
+        current_time = now.strftime("%d/%m/%Y %H:%M:%S")
+        html_content = html_content.replace('Dernier Trade: ', f'Dernier trade a ete prise a : {current_time}')
 
         # Écrire le contenu modifié dans le fichier HTML local
         with open('fichier_local.html', 'w') as file:
