@@ -205,47 +205,42 @@ def courbe(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pour
         target2 = J[1] - ((moyenne_tete*5) / 100)
         button2.on_clicked(lambda event: achat(ticker, target1, target2))
         now = datetime.datetime.now()
-        if not os.path.isfile(f'trouvailles/{tiker_live} {time1} {time_name1} {round(J[1] + ((moyenne_tete*30) / 100), 5)} {round(J[1] - ((moyenne_tete*5) / 100), 5)} .png'):
+        if not os.path.isfile(f'trouvailles/{tiker_live} .png'):
             plt.savefig(f'trouvailles/{tiker_live} {time1} {time_name1} {round(J[1] + ((moyenne_tete*30) / 100), 5)} {round(J[1] - ((moyenne_tete*5) / 100), 5)} .png')
         #plt.show()
 
-        # Informations de connexion FTP
-        ftp_server = 'server133.web-hosting.com'
-        ftp_username = 'abtrqawg'
-        ftp_password = 'Km8V2Q67pUbL'
-        ftp_file_path = '/public_html/index.html'
+            # Informations de connexion FTP
+            ftp_server = 'server133.web-hosting.com'
+            ftp_username = 'abtrqawg'
+            ftp_password = 'Km8V2Q67pUbL'
+            ftp_file_path = '/public_html/index.html'
 
-        # Connexion au serveur FTP
-        ftp = ftplib.FTP(ftp_server)
-        ftp.login(ftp_username, ftp_password)
+            # Connexion au serveur FTP
+            ftp = ftplib.FTP(ftp_server)
+            ftp.login(ftp_username, ftp_password)
 
-        # Téléchargement du fichier HTML depuis le serveur FTP
-        with open('fichier_local.html', 'wb') as file:
-            ftp.retrbinary(f'RETR {ftp_file_path}', file.write)
+            # Téléchargement du fichier HTML depuis le serveur FTP
+            with open('fichier_local.html', 'wb') as file:
+                ftp.retrbinary(f'RETR {ftp_file_path}', file.write)
 
-        # Lire le contenu du fichier HTML local
-        with open('fichier_local.html', 'r') as file:
-            html_content = file.read()
+            # Lire le contenu du fichier HTML local
+            with open('fichier_local.html', 'r') as file:
+                html_content = file.read()
 
-        # Incrémenter les valeurs spécifiées
-        html_content = increment_value(html_content, 'Nombre de trades pris')
-        html_content = increment_value(html_content, 'Nombre de trades pris*')
+            # Incrémenter les valeurs spécifiées
+            html_content = increment_value(html_content, 'Nombre de trades pris')
+            html_content = increment_value(html_content, 'Nombre de trades pris*')
 
-        # Ajouter la date et l'heure actuelles pour "Dernier trade a ete prise a : "
-        now = datetime.now()
-        current_time = now.strftime("%d/%m/%Y %H:%M:%S")
-        html_content = html_content.replace('Dernier Trade: ', f'Dernier trade a ete prise a : {current_time}')
+            # Écrire le contenu modifié dans le fichier HTML local
+            with open('fichier_local.html', 'w') as file:
+                file.write(html_content)
 
-        # Écrire le contenu modifié dans le fichier HTML local
-        with open('fichier_local.html', 'w') as file:
-            file.write(html_content)
+            # Téléverser le fichier HTML modifié sur le serveur FTP
+            with open('fichier_local.html', 'rb') as file:
+                ftp.storbinary(f'STOR {ftp_file_path}', file)
 
-        # Téléverser le fichier HTML modifié sur le serveur FTP
-        with open('fichier_local.html', 'rb') as file:
-            ftp.storbinary(f'STOR {ftp_file_path}', file)
-
-        # Fermer la connexion FTP
-        ftp.quit()
+            # Fermer la connexion FTP
+            ftp.quit()
 
 
     # ----- creer la figure et l'affichage MATPLOTLIB -----#
