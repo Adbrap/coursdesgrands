@@ -70,6 +70,8 @@ do
   python3 montagne/ACA2.py &
   python3 montagne/ACAB2.py &
   python3 montagne/ACACU2.py &
+ sleep 10
+  python3 montagne/ACACU2.py &
   python3 montagne/ACAD2.py &
   python3 montagne/ACAH2.py &
   python3 montagne/ACAHU2.py &
@@ -110,8 +112,6 @@ do
   python3 montagne/ACQRU2.py &
   python3 montagne/ACR2.py &
   python3 montagne/ACRE2.py &
- sleep 10
-  python3 montagne/ACRE2.py &
   python3 montagne/ACRO2.py &
   python3 montagne/ACRS2.py &
   python3 montagne/ACRX2.py &
@@ -121,6 +121,8 @@ do
   python3 montagne/ACTG2.py &
   python3 montagne/ACTV2.py &
   python3 montagne/ACU2.py &
+  python3 montagne/ACV2.py &
+ sleep 10
   python3 montagne/ACV2.py &
   python3 montagne/ACVA2.py &
   python3 montagne/ACVF2.py &
@@ -172,6 +174,8 @@ do
   python3 montagne/AEE2.py &
   python3 montagne/AEF2.py &
   python3 montagne/AEFC2.py &
+ sleep 10
+  python3 montagne/AEFC2.py &
   python3 montagne/AEG2.py &
   python3 montagne/AEHL2.py &
   python3 montagne/AEHR2.py &
@@ -202,8 +206,6 @@ do
   python3 montagne/AFGB2.py &
   python3 montagne/AFGC2.py &
   python3 montagne/AFGD2.py &
- sleep 10
-  python3 montagne/AFGD2.py &
   python3 montagne/AFGE2.py &
   python3 montagne/AFIB2.py &
   python3 montagne/AFIF2.py &
@@ -223,6 +225,8 @@ do
   python3 montagne/AG2.py &
   python3 montagne/AGAC2.py &
   python3 montagne/AGAC2.py &
+  python3 montagne/AGBA2.py &
+ sleep 10
   python3 montagne/AGBA2.py &
   python3 montagne/AGCO2.py &
   python3 montagne/AGD2.py &
@@ -274,6 +278,8 @@ do
   python3 montagne/AHRNU2.py &
   python3 montagne/AHT2.py &
   python3 montagne/AHYB2.py &
+ sleep 10
+  python3 montagne/AHYB2.py &
   python3 montagne/AI2.py &
   python3 montagne/AIA2.py &
   python3 montagne/AIB2.py &
@@ -293,8 +299,6 @@ do
   python3 montagne/AIMD2.py &
   python3 montagne/AIN2.py &
   python3 montagne/AINC2.py &
-  python3 montagne/AIO2.py &
- sleep 10
   python3 montagne/AIO2.py &
   python3 montagne/AIP2.py &
   python3 montagne/AIQ2.py &
@@ -325,6 +329,8 @@ do
   python3 montagne/AKRO2.py &
   python3 montagne/AKTS2.py &
   python3 montagne/AKTX2.py &
+  python3 montagne/AKU2.py &
+ sleep 10
   python3 montagne/AKU2.py &
   python3 montagne/AKYA2.py &
   python3 montagne/AL2.py &
@@ -376,6 +382,8 @@ do
   python3 montagne/ALTL2.py &
   python3 montagne/ALTO2.py &
   python3 montagne/ALTR2.py &
+ sleep 10
+  python3 montagne/ALTR2.py &
   python3 montagne/ALTU2.py &
   python3 montagne/ALTUU2.py &
   python3 montagne/ALTY2.py &
@@ -385,8 +393,6 @@ do
   python3 montagne/ALX2.py &
   python3 montagne/ALXO2.py &
   python3 montagne/ALYA2.py &
-  python3 montagne/ALZN2.py &
- sleep 10
   python3 montagne/ALZN2.py &
   python3 montagne/AM2.py &
   python3 montagne/AMAL2.py &
@@ -427,6 +433,8 @@ do
   python3 montagne/AMPS2.py &
   python3 montagne/AMPY2.py &
   python3 montagne/AMR2.py &
+  python3 montagne/AMRC2.py &
+ sleep 10
   python3 montagne/AMRC2.py &
   python3 montagne/AMRK2.py &
   python3 montagne/AMRN2.py &
@@ -530,6 +538,8 @@ do
   python3 montagne/APWC2.py &
   python3 montagne/APXI2.py &
   python3 montagne/APXIU2.py &
+ sleep 10
+  python3 montagne/APXIU2.py &
   python3 montagne/APYX2.py &
   python3 montagne/AQB2.py &
   python3 montagne/AQGX2.py &
@@ -570,8 +580,6 @@ do
   python3 montagne/ARGT2.py &
   python3 montagne/ARGX2.py &
   python3 montagne/ARHS2.py &
- sleep 10
-  python3 montagne/ARHS2.py &
   python3 montagne/ARI2.py &
   python3 montagne/ARIS2.py &
   python3 montagne/ARIZ2.py &
@@ -581,6 +589,8 @@ do
   python3 montagne/ARKK2.py &
   python3 montagne/ARKO2.py &
   python3 montagne/ARKQ2.py &
+  python3 montagne/ARKR2.py &
+ sleep 10
   python3 montagne/ARKR2.py &
   python3 montagne/ARKW2.py &
   python3 montagne/ARKX2.py &
@@ -632,6 +642,8 @@ do
   python3 montagne/ASHX2.py &
   python3 montagne/ASIX2.py &
   python3 montagne/ASLE2.py &
+ sleep 10
+  python3 montagne/ASLE2.py &
   python3 montagne/ASLN2.py &
   python3 montagne/ASM2.py &
   python3 montagne/ASMB2.py &
@@ -662,8 +674,6 @@ do
   python3 montagne/ATAKR2.py &
   python3 montagne/ATAKU2.py &
   python3 montagne/ATAQ2.py &
- sleep 10
-  python3 montagne/ATAQ2.py &
   python3 montagne/ATCO2.py &
   python3 montagne/ATCOL2.py &
   python3 montagne/ATCX2.py &
@@ -683,6 +693,8 @@ do
   python3 montagne/ATIP2.py &
   python3 montagne/ATKR2.py &
   python3 montagne/ATLC2.py &
+  python3 montagne/ATLCL2.py &
+ sleep 10
   python3 montagne/ATLCL2.py &
   python3 montagne/ATLCP2.py &
   python3 montagne/ATLO2.py &
@@ -734,6 +746,8 @@ do
   python3 montagne/AVAV2.py &
   python3 montagne/AVB2.py &
   python3 montagne/AVD2.py &
+ sleep 10
+  python3 montagne/AVD2.py &
   python3 montagne/AVDE2.py &
   python3 montagne/AVDL2.py &
   python3 montagne/AVDV2.py &
@@ -753,8 +767,6 @@ do
   python3 montagne/AVMU2.py &
   python3 montagne/AVNS2.py &
   python3 montagne/AVNT2.py &
-  python3 montagne/AVNW2.py &
- sleep 10
   python3 montagne/AVNW2.py &
   python3 montagne/AVO2.py &
   python3 montagne/AVPT2.py &
@@ -785,6 +797,8 @@ do
   python3 montagne/AWYX2.py &
   python3 montagne/AX2.py &
   python3 montagne/AXAC2.py &
+  python3 montagne/AXDX2.py &
+ sleep 10
   python3 montagne/AXDX2.py &
   python3 montagne/AXGN2.py &
   python3 montagne/AXL2.py &
@@ -836,6 +850,8 @@ do
   python3 montagne/BAOS2.py &
   python3 montagne/BAP2.py &
   python3 montagne/BAPR2.py &
+ sleep 10
+  python3 montagne/BAPR2.py &
   python3 montagne/BAR2.py &
   python3 montagne/BARK2.py &
   python3 montagne/BASE2.py &
@@ -845,8 +861,6 @@ do
   python3 montagne/BATT2.py &
   python3 montagne/BAUG2.py &
   python3 montagne/BAX2.py &
-  python3 montagne/BB2.py &
- sleep 10
   python3 montagne/BB2.py &
   python3 montagne/BBAI2.py &
   python3 montagne/BBAR2.py &
@@ -887,6 +901,8 @@ do
   python3 montagne/BCAT2.py &
   python3 montagne/BCBP2.py &
   python3 montagne/BCC2.py &
+  python3 montagne/BCD2.py &
+ sleep 10
   python3 montagne/BCD2.py &
   python3 montagne/BCDA2.py &
   python3 montagne/BCE2.py &
@@ -990,6 +1006,8 @@ do
   python3 montagne/BHFAL2.py &
   python3 montagne/BHFAM2.py &
   python3 montagne/BHFAN2.py &
+ sleep 10
+  python3 montagne/BHFAN2.py &
   python3 montagne/BHFAO2.py &
   python3 montagne/BHFAP2.py &
   python3 montagne/BHG2.py &
@@ -1030,8 +1048,6 @@ do
   python3 montagne/BITE2.py &
   python3 montagne/BITF2.py &
   python3 montagne/BITI2.py &
- sleep 10
-  python3 montagne/BITI2.py &
   python3 montagne/BITO2.py &
   python3 montagne/BITQ2.py &
   python3 montagne/BITS2.py &
@@ -1041,6 +1057,8 @@ do
   python3 montagne/BJ2.py &
   python3 montagne/BJAN2.py &
   python3 montagne/BJDX2.py &
+  python3 montagne/BJK2.py &
+ sleep 10
   python3 montagne/BJK2.py &
   python3 montagne/BJRI2.py &
   python3 montagne/BJUL2.py &
@@ -1092,6 +1110,8 @@ do
   python3 montagne/BLES2.py &
   python3 montagne/BLEU2.py &
   python3 montagne/BLEUR2.py &
+ sleep 10
+  python3 montagne/BLEUR2.py &
   python3 montagne/BLEUU2.py &
   python3 montagne/BLFS2.py &
   python3 montagne/BLFY2.py &
@@ -1122,8 +1142,6 @@ do
   python3 montagne/BMAQ2.py &
   python3 montagne/BMAQR2.py &
   python3 montagne/BMAQU2.py &
- sleep 10
-  python3 montagne/BMAQU2.py &
   python3 montagne/BMAR2.py &
   python3 montagne/BMAY2.py &
   python3 montagne/BMBL2.py &
@@ -1143,6 +1161,8 @@ do
   python3 montagne/BNDD2.py &
   python3 montagne/BNDW2.py &
   python3 montagne/BNDX2.py &
+  python3 montagne/BNE2.py &
+ sleep 10
   python3 montagne/BNE2.py &
   python3 montagne/BNED2.py &
   python3 montagne/BNGE2.py &
@@ -1194,6 +1214,8 @@ do
   python3 montagne/BPAC2.py &
   python3 montagne/BPACU2.py &
   python3 montagne/BPMC2.py &
+ sleep 10
+  python3 montagne/BPMC2.py &
   python3 montagne/BPOP2.py &
   python3 montagne/BPOPM2.py &
   python3 montagne/BPRN2.py &
@@ -1213,8 +1235,6 @@ do
   python3 montagne/BRBR2.py &
   python3 montagne/BRBS2.py &
   python3 montagne/BRC2.py &
-  python3 montagne/BRCC2.py &
- sleep 10
   python3 montagne/BRCC2.py &
   python3 montagne/BRD2.py &
   python3 montagne/BRDG2.py &
@@ -1245,6 +1265,8 @@ do
   python3 montagne/BRT2.py &
   python3 montagne/BRTX2.py &
   python3 montagne/BRW2.py &
+  python3 montagne/BRX2.py &
+ sleep 10
   python3 montagne/BRX2.py &
   python3 montagne/BRY2.py &
   python3 montagne/BRZE2.py &
@@ -1296,6 +1318,8 @@ do
   python3 montagne/BSRR2.py &
   python3 montagne/BST2.py &
   python3 montagne/BSTP2.py &
+ sleep 10
+  python3 montagne/BSTP2.py &
   python3 montagne/BSTZ2.py &
   python3 montagne/BSV2.py &
   python3 montagne/BSVN2.py &
@@ -1305,8 +1329,6 @@ do
   python3 montagne/BTAI2.py &
   python3 montagne/BTAL2.py &
   python3 montagne/BTB2.py &
-  python3 montagne/BTBD2.py &
- sleep 10
   python3 montagne/BTBD2.py &
   python3 montagne/BTBT2.py &
   python3 montagne/BTCM2.py &
@@ -1347,6 +1369,8 @@ do
   python3 montagne/BUZZ2.py &
   python3 montagne/BV2.py &
   python3 montagne/BVH2.py &
+  python3 montagne/BVN2.py &
+ sleep 10
   python3 montagne/BVN2.py &
   python3 montagne/BVS2.py &
   python3 montagne/BVXV2.py &
@@ -1450,6 +1474,8 @@ do
   python3 montagne/CATH2.py &
   python3 montagne/CATO2.py &
   python3 montagne/CATY2.py &
+ sleep 10
+  python3 montagne/CATY2.py &
   python3 montagne/CB2.py &
   python3 montagne/CBAN2.py &
   python3 montagne/CBAT2.py &
@@ -1490,8 +1516,6 @@ do
   python3 montagne/CCL2.py &
   python3 montagne/CCLP2.py &
   python3 montagne/CCM2.py &
- sleep 10
-  python3 montagne/CCM2.py &
   python3 montagne/CCNE2.py &
   python3 montagne/CCNEP2.py &
   python3 montagne/CCO2.py &
@@ -1501,6 +1525,8 @@ do
   python3 montagne/CCRN2.py &
   python3 montagne/CCRV2.py &
   python3 montagne/CCS2.py &
+  python3 montagne/CCSI2.py &
+ sleep 10
   python3 montagne/CCSI2.py &
   python3 montagne/CCTS2.py &
   python3 montagne/CCU2.py &
@@ -1552,6 +1578,8 @@ do
   python3 montagne/CENX2.py &
   python3 montagne/CEPU2.py &
   python3 montagne/CEQP2.py &
+ sleep 10
+  python3 montagne/CEQP2.py &
   python3 montagne/CERE2.py &
   python3 montagne/CERS2.py &
   python3 montagne/CERT2.py &
@@ -1582,8 +1610,6 @@ do
   python3 montagne/CG2.py &
   python3 montagne/CGA2.py &
   python3 montagne/CGABL2.py &
- sleep 10
-  python3 montagne/CGABL2.py &
   python3 montagne/CGAU2.py &
   python3 montagne/CGBD2.py &
   python3 montagne/CGC2.py &
@@ -1603,6 +1629,8 @@ do
   python3 montagne/CGXU2.py &
   python3 montagne/CHAA2.py &
   python3 montagne/CHAU2.py &
+  python3 montagne/CHB2.py &
+ sleep 10
   python3 montagne/CHB2.py &
   python3 montagne/CHCI2.py &
   python3 montagne/CHCO2.py &
@@ -1654,6 +1682,8 @@ do
   python3 montagne/CHW2.py &
   python3 montagne/CHWY2.py &
   python3 montagne/CHX2.py &
+ sleep 10
+  python3 montagne/CHX2.py &
   python3 montagne/CHY2.py &
   python3 montagne/CI2.py &
   python3 montagne/CIA2.py &
@@ -1673,8 +1703,6 @@ do
   python3 montagne/CIK2.py &
   python3 montagne/CIL2.py &
   python3 montagne/CIM2.py &
-  python3 montagne/CINF2.py &
- sleep 10
   python3 montagne/CINF2.py &
   python3 montagne/CING2.py &
   python3 montagne/CINT2.py &
@@ -1705,6 +1733,8 @@ do
   python3 montagne/CLDT2.py &
   python3 montagne/CLDX2.py &
   python3 montagne/CLEU2.py &
+  python3 montagne/CLF2.py &
+ sleep 10
   python3 montagne/CLF2.py &
   python3 montagne/CLFD2.py &
   python3 montagne/CLGN2.py &
@@ -1756,6 +1786,8 @@ do
   python3 montagne/CMBM2.py &
   python3 montagne/CMBS2.py &
   python3 montagne/CMC2.py &
+ sleep 10
+  python3 montagne/CMC2.py &
   python3 montagne/CMCA2.py &
   python3 montagne/CMCAU2.py &
   python3 montagne/CMCL2.py &
@@ -1765,8 +1797,6 @@ do
   python3 montagne/CMCT2.py &
   python3 montagne/CMDY2.py &
   python3 montagne/CME2.py &
-  python3 montagne/CMF2.py &
- sleep 10
   python3 montagne/CMF2.py &
   python3 montagne/CMG2.py &
   python3 montagne/CMI2.py &
@@ -1807,6 +1837,8 @@ do
   python3 montagne/CNI2.py &
   python3 montagne/CNK2.py &
   python3 montagne/CNM2.py &
+  python3 montagne/CNMD2.py &
+ sleep 10
   python3 montagne/CNMD2.py &
   python3 montagne/CNNE2.py &
   python3 montagne/CNO2.py &
@@ -1910,6 +1942,8 @@ do
   python3 montagne/CPUH2.py &
   python3 montagne/CPZ2.py &
   python3 montagne/CQP2.py &
+ sleep 10
+  python3 montagne/CQP2.py &
   python3 montagne/CQQQ2.py &
   python3 montagne/CR2.py &
   python3 montagne/CRAI2.py &
@@ -1950,8 +1984,6 @@ do
   python3 montagne/CRSP2.py &
   python3 montagne/CRSR2.py &
   python3 montagne/CRT2.py &
- sleep 10
-  python3 montagne/CRT2.py &
   python3 montagne/CRTO2.py &
   python3 montagne/CRUS2.py &
   python3 montagne/CRUZ2.py &
@@ -1961,6 +1993,8 @@ do
   python3 montagne/CRWS2.py &
   python3 montagne/CRYP2.py &
   python3 montagne/CRZN2.py &
+  python3 montagne/CRZNU2.py &
+ sleep 10
   python3 montagne/CRZNU2.py &
   python3 montagne/CS2.py &
   python3 montagne/CSA2.py &
@@ -2012,6 +2046,8 @@ do
   python3 montagne/CTLT2.py &
   python3 montagne/CTMX2.py &
   python3 montagne/CTO2.py &
+ sleep 10
+  python3 montagne/CTO2.py &
   python3 montagne/CTOS2.py &
   python3 montagne/CTR2.py &
   python3 montagne/CTRA2.py &
@@ -2042,8 +2078,6 @@ do
   python3 montagne/CUTR2.py &
   python3 montagne/CUZ2.py &
   python3 montagne/CVAC2.py &
- sleep 10
-  python3 montagne/CVAC2.py &
   python3 montagne/CVAR2.py &
   python3 montagne/CVBF2.py &
   python3 montagne/CVCO2.py &
@@ -2063,6 +2097,8 @@ do
   python3 montagne/CVRX2.py &
   python3 montagne/CVS2.py &
   python3 montagne/CVT2.py &
+  python3 montagne/CVV2.py &
+ sleep 10
   python3 montagne/CVV2.py &
   python3 montagne/CVX2.py &
   python3 montagne/CVY2.py &
@@ -2114,6 +2150,8 @@ do
   python3 montagne/CZWI2.py &
   python3 montagne/D2.py &
   python3 montagne/DAC2.py &
+ sleep 10
+  python3 montagne/DAC2.py &
   python3 montagne/DADA2.py &
   python3 montagne/DAIO2.py &
   python3 montagne/DAKT2.py &
@@ -2133,8 +2171,6 @@ do
   python3 montagne/DAT2.py &
   python3 montagne/DATS2.py &
   python3 montagne/DAUG2.py &
-  python3 montagne/DAVA2.py &
- sleep 10
   python3 montagne/DAVA2.py &
   python3 montagne/DAVE2.py &
   python3 montagne/DAWN2.py &
@@ -2165,6 +2201,8 @@ do
   python3 montagne/DBRG2.py &
   python3 montagne/DBTX2.py &
   python3 montagne/DBVT2.py &
+  python3 montagne/DBX2.py &
+ sleep 10
   python3 montagne/DBX2.py &
   python3 montagne/DC2.py &
   python3 montagne/DCBO2.py &
@@ -2216,6 +2254,8 @@ do
   python3 montagne/DEUS2.py &
   python3 montagne/DEW2.py &
   python3 montagne/DEX2.py &
+ sleep 10
+  python3 montagne/DEX2.py &
   python3 montagne/DFAC2.py &
   python3 montagne/DFAE2.py &
   python3 montagne/DFAI2.py &
@@ -2225,8 +2265,6 @@ do
   python3 montagne/DFAU2.py &
   python3 montagne/DFAX2.py &
   python3 montagne/DFCF2.py &
-  python3 montagne/DFE2.py &
- sleep 10
   python3 montagne/DFE2.py &
   python3 montagne/DFEB2.py &
   python3 montagne/DFEM2.py &
@@ -2267,6 +2305,8 @@ do
   python3 montagne/DGRW2.py &
   python3 montagne/DGS2.py &
   python3 montagne/DGT2.py &
+  python3 montagne/DGX2.py &
+ sleep 10
   python3 montagne/DGX2.py &
   python3 montagne/DGZ2.py &
   python3 montagne/DH2.py &
@@ -2370,6 +2410,8 @@ do
   python3 montagne/DNP2.py &
   python3 montagne/DNUT2.py &
   python3 montagne/DO2.py &
+ sleep 10
+  python3 montagne/DO2.py &
   python3 montagne/DOC2.py &
   python3 montagne/DOCN2.py &
   python3 montagne/DOCS2.py &
@@ -2410,8 +2452,6 @@ do
   python3 montagne/DRQ2.py &
   python3 montagne/DRRX2.py &
   python3 montagne/DRSK2.py &
- sleep 10
-  python3 montagne/DRSK2.py &
   python3 montagne/DRTS2.py &
   python3 montagne/DRTT2.py &
   python3 montagne/DRUG2.py &
@@ -2421,6 +2461,8 @@ do
   python3 montagne/DSEP2.py &
   python3 montagne/DSEY2.py &
   python3 montagne/DSGN2.py &
+  python3 montagne/DSGR2.py &
+ sleep 10
   python3 montagne/DSGR2.py &
   python3 montagne/DSGX2.py &
   python3 montagne/DSI2.py &
@@ -2472,6 +2514,8 @@ do
   python3 montagne/DV2.py &
   python3 montagne/DVA2.py &
   python3 montagne/DVAX2.py &
+ sleep 10
+  python3 montagne/DVAX2.py &
   python3 montagne/DVLU2.py &
   python3 montagne/DVN2.py &
   python3 montagne/DVOL2.py &
@@ -2502,8 +2546,6 @@ do
   python3 montagne/DXJ2.py &
   python3 montagne/DXJS2.py &
   python3 montagne/DXLG2.py &
- sleep 10
-  python3 montagne/DXLG2.py &
   python3 montagne/DXPE2.py &
   python3 montagne/DXR2.py &
   python3 montagne/DXYN2.py &
@@ -2523,6 +2565,8 @@ do
   python3 montagne/EAF2.py &
   python3 montagne/EAFD2.py &
   python3 montagne/EAGG2.py &
+  python3 montagne/EAI2.py &
+ sleep 10
   python3 montagne/EAI2.py &
   python3 montagne/EAOA2.py &
   python3 montagne/EAOK2.py &
@@ -2574,6 +2618,8 @@ do
   python3 montagne/EDC2.py &
   python3 montagne/EDD2.py &
   python3 montagne/EDEN2.py &
+ sleep 10
+  python3 montagne/EDEN2.py &
   python3 montagne/EDF2.py &
   python3 montagne/EDI2.py &
   python3 montagne/EDIT2.py &
@@ -2593,8 +2639,6 @@ do
   python3 montagne/EDUT2.py &
   python3 montagne/EDV2.py &
   python3 montagne/EDZ2.py &
-  python3 montagne/EE2.py &
- sleep 10
   python3 montagne/EE2.py &
   python3 montagne/EEA2.py &
   python3 montagne/EEFT2.py &
@@ -2625,6 +2669,8 @@ do
   python3 montagne/EFOI2.py &
   python3 montagne/EFR2.py &
   python3 montagne/EFSC2.py &
+  python3 montagne/EFSCP2.py &
+ sleep 10
   python3 montagne/EFSCP2.py &
   python3 montagne/EFSH2.py &
   python3 montagne/EFT2.py &
@@ -2676,6 +2722,8 @@ do
   python3 montagne/ELDN2.py &
   python3 montagne/ELEV2.py &
   python3 montagne/ELF2.py &
+ sleep 10
+  python3 montagne/ELF2.py &
   python3 montagne/ELLO2.py &
   python3 montagne/ELMD2.py &
   python3 montagne/ELOX2.py &
@@ -2685,8 +2733,6 @@ do
   python3 montagne/ELTK2.py &
   python3 montagne/ELV2.py &
   python3 montagne/ELYM2.py &
-  python3 montagne/ELYS2.py &
- sleep 10
   python3 montagne/ELYS2.py &
   python3 montagne/EM2.py &
   python3 montagne/EMAN2.py &
@@ -2727,6 +2773,8 @@ do
   python3 montagne/EMXC2.py &
   python3 montagne/EMXF2.py &
   python3 montagne/ENB2.py &
+  python3 montagne/ENBA2.py &
+ sleep 10
   python3 montagne/ENBA2.py &
   python3 montagne/ENCP2.py &
   python3 montagne/ENCPU2.py &
@@ -2830,6 +2878,8 @@ do
   python3 montagne/ESAB2.py &
   python3 montagne/ESAC2.py &
   python3 montagne/ESACU2.py &
+ sleep 10
+  python3 montagne/ESACU2.py &
   python3 montagne/ESBA2.py &
   python3 montagne/ESCA2.py &
   python3 montagne/ESE2.py &
@@ -2870,8 +2920,6 @@ do
   python3 montagne/ESTE2.py &
   python3 montagne/ET2.py &
   python3 montagne/ETB2.py &
- sleep 10
-  python3 montagne/ETB2.py &
   python3 montagne/ETD2.py &
   python3 montagne/ETG2.py &
   python3 montagne/ETHO2.py &
@@ -2881,6 +2929,8 @@ do
   python3 montagne/ETO2.py &
   python3 montagne/ETON2.py &
   python3 montagne/ETR2.py &
+  python3 montagne/ETRN2.py &
+ sleep 10
   python3 montagne/ETRN2.py &
   python3 montagne/ETSY2.py &
   python3 montagne/ETV2.py &
@@ -2932,6 +2982,8 @@ do
   python3 montagne/EVRG2.py &
   python3 montagne/EVRI2.py &
   python3 montagne/EVT2.py &
+ sleep 10
+  python3 montagne/EVT2.py &
   python3 montagne/EVTC2.py &
   python3 montagne/EVTL2.py &
   python3 montagne/EVTV2.py &
@@ -2962,8 +3014,6 @@ do
   python3 montagne/EWRE2.py &
   python3 montagne/EWS2.py &
   python3 montagne/EWSC2.py &
- sleep 10
-  python3 montagne/EWSC2.py &
   python3 montagne/EWT2.py &
   python3 montagne/EWTX2.py &
   python3 montagne/EWU2.py &
@@ -2983,6 +3033,8 @@ do
   python3 montagne/EXG2.py &
   python3 montagne/EXI2.py &
   python3 montagne/EXK2.py &
+  python3 montagne/EXLS2.py &
+ sleep 10
   python3 montagne/EXLS2.py &
   python3 montagne/EXP2.py &
   python3 montagne/EXPD2.py &
@@ -3034,6 +3086,8 @@ do
   python3 montagne/FAZ2.py &
   python3 montagne/FBCG2.py &
   python3 montagne/FBCV2.py &
+ sleep 10
+  python3 montagne/FBCV2.py &
   python3 montagne/FBGX2.py &
   python3 montagne/FBIO2.py &
   python3 montagne/FBIOP2.py &
@@ -3053,8 +3107,6 @@ do
   python3 montagne/FCAP2.py &
   python3 montagne/FCBC2.py &
   python3 montagne/FCCO2.py &
-  python3 montagne/FCEF2.py &
- sleep 10
   python3 montagne/FCEF2.py &
   python3 montagne/FCEL2.py &
   python3 montagne/FCF2.py &
@@ -3085,6 +3137,8 @@ do
   python3 montagne/FDEU2.py &
   python3 montagne/FDEV2.py &
   python3 montagne/FDG2.py &
+  python3 montagne/FDHT2.py &
+ sleep 10
   python3 montagne/FDHT2.py &
   python3 montagne/FDHY2.py &
   python3 montagne/FDIG2.py &
@@ -3136,6 +3190,8 @@ do
   python3 montagne/FEXDU2.py &
   python3 montagne/FEZ2.py &
   python3 montagne/FF2.py &
+ sleep 10
+  python3 montagne/FF2.py &
   python3 montagne/FFA2.py &
   python3 montagne/FFBC2.py &
   python3 montagne/FFC2.py &
@@ -3145,8 +3201,6 @@ do
   python3 montagne/FFIE2.py &
   python3 montagne/FFIN2.py &
   python3 montagne/FFIU2.py &
-  python3 montagne/FFIV2.py &
- sleep 10
   python3 montagne/FFIV2.py &
   python3 montagne/FFND2.py &
   python3 montagne/FFNW2.py &
@@ -3187,6 +3241,8 @@ do
   python3 montagne/FID2.py &
   python3 montagne/FIDI2.py &
   python3 montagne/FIDU2.py &
+  python3 montagne/FIEE2.py &
+ sleep 10
   python3 montagne/FIEE2.py &
   python3 montagne/FIF2.py &
   python3 montagne/FIG2.py &
@@ -3290,6 +3346,8 @@ do
   python3 montagne/FLUX2.py &
   python3 montagne/FLV2.py &
   python3 montagne/FLWS2.py &
+ sleep 10
+  python3 montagne/FLWS2.py &
   python3 montagne/FLXS2.py &
   python3 montagne/FLYD2.py &
   python3 montagne/FLYU2.py &
@@ -3330,8 +3388,6 @@ do
   python3 montagne/FNDC2.py &
   python3 montagne/FNDE2.py &
   python3 montagne/FNDF2.py &
- sleep 10
-  python3 montagne/FNDF2.py &
   python3 montagne/FNDX2.py &
   python3 montagne/FNF2.py &
   python3 montagne/FNGD2.py &
@@ -3341,6 +3397,8 @@ do
   python3 montagne/FNGS2.py &
   python3 montagne/FNGU2.py &
   python3 montagne/FNK2.py &
+  python3 montagne/FNKO2.py &
+ sleep 10
   python3 montagne/FNKO2.py &
   python3 montagne/FNLC2.py &
   python3 montagne/FNOV2.py &
@@ -3392,6 +3450,8 @@ do
   python3 montagne/FRAF2.py &
   python3 montagne/FRBA2.py &
   python3 montagne/FRBK2.py &
+ sleep 10
+  python3 montagne/FRBK2.py &
   python3 montagne/FRBN2.py &
   python3 montagne/FRBNU2.py &
   python3 montagne/FRC2.py &
@@ -3422,8 +3482,6 @@ do
   python3 montagne/FRST2.py &
   python3 montagne/FRSX2.py &
   python3 montagne/FRT2.py &
- sleep 10
-  python3 montagne/FRT2.py &
   python3 montagne/FRTY2.py &
   python3 montagne/FRXB2.py &
   python3 montagne/FSBC2.py &
@@ -3443,6 +3501,8 @@ do
   python3 montagne/FSM2.py &
   python3 montagne/FSMB2.py &
   python3 montagne/FSMD2.py &
+  python3 montagne/FSMO2.py &
+ sleep 10
   python3 montagne/FSMO2.py &
   python3 montagne/FSNB2.py &
   python3 montagne/FSP2.py &
@@ -3494,6 +3554,8 @@ do
   python3 montagne/FTXG2.py &
   python3 montagne/FTXH2.py &
   python3 montagne/FTXL2.py &
+ sleep 10
+  python3 montagne/FTXL2.py &
   python3 montagne/FTXN2.py &
   python3 montagne/FTXO2.py &
   python3 montagne/FTXR2.py &
@@ -3513,8 +3575,6 @@ do
   python3 montagne/FUTU2.py &
   python3 montagne/FUTY2.py &
   python3 montagne/FUV2.py &
-  python3 montagne/FV2.py &
- sleep 10
   python3 montagne/FV2.py &
   python3 montagne/FVAL2.py &
   python3 montagne/FVC2.py &
@@ -3545,6 +3605,8 @@ do
   python3 montagne/FXO2.py &
   python3 montagne/FXP2.py &
   python3 montagne/FXR2.py &
+  python3 montagne/FXU2.py &
+ sleep 10
   python3 montagne/FXU2.py &
   python3 montagne/FXY2.py &
   python3 montagne/FXZ2.py &
@@ -3596,6 +3658,8 @@ do
   python3 montagne/GBNY2.py &
   python3 montagne/GBR2.py &
   python3 montagne/GBRG2.py &
+ sleep 10
+  python3 montagne/GBRG2.py &
   python3 montagne/GBRGR2.py &
   python3 montagne/GBRGU2.py &
   python3 montagne/GBTG2.py &
@@ -3605,8 +3669,6 @@ do
   python3 montagne/GCC2.py &
   python3 montagne/GCI2.py &
   python3 montagne/GCLN2.py &
-  python3 montagne/GCMG2.py &
- sleep 10
   python3 montagne/GCMG2.py &
   python3 montagne/GCO2.py &
   python3 montagne/GCOR2.py &
@@ -3647,6 +3709,8 @@ do
   python3 montagne/GEEXU2.py &
   python3 montagne/GEF2.py &
   python3 montagne/GEG2.py &
+  python3 montagne/GEGGL2.py &
+ sleep 10
   python3 montagne/GEGGL2.py &
   python3 montagne/GEHI2.py &
   python3 montagne/GEL2.py &
@@ -3750,6 +3814,8 @@ do
   python3 montagne/GLMD2.py &
   python3 montagne/GLNG2.py &
   python3 montagne/GLO2.py &
+ sleep 10
+  python3 montagne/GLO2.py &
   python3 montagne/GLOB2.py &
   python3 montagne/GLOP2.py &
   python3 montagne/GLOV2.py &
@@ -3790,8 +3856,6 @@ do
   python3 montagne/GNK2.py &
   python3 montagne/GNL2.py &
   python3 montagne/GNLN2.py &
- sleep 10
-  python3 montagne/GNLN2.py &
   python3 montagne/GNMA2.py &
   python3 montagne/GNOM2.py &
   python3 montagne/GNPX2.py &
@@ -3801,6 +3865,8 @@ do
   python3 montagne/GNSS2.py &
   python3 montagne/GNT2.py &
   python3 montagne/GNTA2.py &
+  python3 montagne/GNTX2.py &
+ sleep 10
   python3 montagne/GNTX2.py &
   python3 montagne/GNTY2.py &
   python3 montagne/GNUS2.py &
@@ -3852,6 +3918,8 @@ do
   python3 montagne/GRC2.py &
   python3 montagne/GRCL2.py &
   python3 montagne/GRCY2.py &
+ sleep 10
+  python3 montagne/GRCY2.py &
   python3 montagne/GRCYU2.py &
   python3 montagne/GREE2.py &
   python3 montagne/GREEL2.py &
@@ -3882,8 +3950,6 @@ do
   python3 montagne/GRWG2.py &
   python3 montagne/GRX2.py &
   python3 montagne/GRZZ2.py &
- sleep 10
-  python3 montagne/GRZZ2.py &
   python3 montagne/GS2.py &
   python3 montagne/GSAT2.py &
   python3 montagne/GSBC2.py &
@@ -3903,6 +3969,8 @@ do
   python3 montagne/GSL2.py &
   python3 montagne/GSLC2.py &
   python3 montagne/GSM2.py &
+  python3 montagne/GSMG2.py &
+ sleep 10
   python3 montagne/GSMG2.py &
   python3 montagne/GSP2.py &
   python3 montagne/GSPY2.py &
@@ -3954,6 +4022,8 @@ do
   python3 montagne/GWII2.py &
   python3 montagne/GWRE2.py &
   python3 montagne/GWRS2.py &
+ sleep 10
+  python3 montagne/GWRS2.py &
   python3 montagne/GWW2.py &
   python3 montagne/GWX2.py &
   python3 montagne/GXC2.py &
@@ -3973,8 +4043,6 @@ do
   python3 montagne/HAIAU2.py &
   python3 montagne/HAIL2.py &
   python3 montagne/HAIN2.py &
-  python3 montagne/HAL2.py &
- sleep 10
   python3 montagne/HAL2.py &
   python3 montagne/HALL2.py &
   python3 montagne/HALO2.py &
@@ -4005,6 +4073,8 @@ do
   python3 montagne/HCC2.py &
   python3 montagne/HCCI2.py &
   python3 montagne/HCDI2.py &
+  python3 montagne/HCDIP2.py &
+ sleep 10
   python3 montagne/HCDIP2.py &
   python3 montagne/HCI2.py &
   python3 montagne/HCKT2.py &
@@ -4056,6 +4126,8 @@ do
   python3 montagne/HEWC2.py &
   python3 montagne/HEWG2.py &
   python3 montagne/HEWJ2.py &
+ sleep 10
+  python3 montagne/HEWJ2.py &
   python3 montagne/HEWU2.py &
   python3 montagne/HEXO2.py &
   python3 montagne/HEZU2.py &
@@ -4065,8 +4137,6 @@ do
   python3 montagne/HFRO2.py &
   python3 montagne/HFWA2.py &
   python3 montagne/HFXI2.py &
-  python3 montagne/HGBL2.py &
- sleep 10
   python3 montagne/HGBL2.py &
   python3 montagne/HGEN2.py &
   python3 montagne/HGER2.py &
@@ -4107,6 +4177,8 @@ do
   python3 montagne/HLF2.py &
   python3 montagne/HLGN2.py &
   python3 montagne/HLI2.py &
+  python3 montagne/HLIO2.py &
+ sleep 10
   python3 montagne/HLIO2.py &
   python3 montagne/HLIT2.py &
   python3 montagne/HLLY2.py &
@@ -4210,6 +4282,8 @@ do
   python3 montagne/HTFC2.py &
   python3 montagne/HTGC2.py &
   python3 montagne/HTGM2.py &
+ sleep 10
+  python3 montagne/HTGM2.py &
   python3 montagne/HTH2.py &
   python3 montagne/HTHT2.py &
   python3 montagne/HTIA2.py &
@@ -4250,8 +4324,6 @@ do
   python3 montagne/HXL2.py &
   python3 montagne/HY2.py &
   python3 montagne/HYB2.py &
- sleep 10
-  python3 montagne/HYB2.py &
   python3 montagne/HYBB2.py &
   python3 montagne/HYBL2.py &
   python3 montagne/HYD2.py &
@@ -4261,6 +4333,8 @@ do
   python3 montagne/HYEM2.py &
   python3 montagne/HYFM2.py &
   python3 montagne/HYG2.py &
+  python3 montagne/HYGH2.py &
+ sleep 10
   python3 montagne/HYGH2.py &
   python3 montagne/HYGI2.py &
   python3 montagne/HYGV2.py &
@@ -4312,6 +4386,8 @@ do
   python3 montagne/IBD2.py &
   python3 montagne/IBDD2.py &
   python3 montagne/IBDO2.py &
+ sleep 10
+  python3 montagne/IBDO2.py &
   python3 montagne/IBDP2.py &
   python3 montagne/IBDQ2.py &
   python3 montagne/IBDR2.py &
@@ -4342,8 +4418,6 @@ do
   python3 montagne/IBMQ2.py &
   python3 montagne/IBN2.py &
   python3 montagne/IBND2.py &
- sleep 10
-  python3 montagne/IBND2.py &
   python3 montagne/IBOC2.py &
   python3 montagne/IBP2.py &
   python3 montagne/IBRX2.py &
@@ -4363,6 +4437,8 @@ do
   python3 montagne/ICAP2.py &
   python3 montagne/ICCC2.py &
   python3 montagne/ICCH2.py &
+  python3 montagne/ICCM2.py &
+ sleep 10
   python3 montagne/ICCM2.py &
   python3 montagne/ICD2.py &
   python3 montagne/ICE2.py &
@@ -4414,6 +4490,8 @@ do
   python3 montagne/IEFA2.py &
   python3 montagne/IEI2.py &
   python3 montagne/IEMG2.py &
+ sleep 10
+  python3 montagne/IEMG2.py &
   python3 montagne/IEO2.py &
   python3 montagne/IEP2.py &
   python3 montagne/IESC2.py &
@@ -4433,8 +4511,6 @@ do
   python3 montagne/IFRX2.py &
   python3 montagne/IFS2.py &
   python3 montagne/IFV2.py &
-  python3 montagne/IG2.py &
- sleep 10
   python3 montagne/IG2.py &
   python3 montagne/IGA2.py &
   python3 montagne/IGBH2.py &
@@ -4465,6 +4541,8 @@ do
   python3 montagne/IHAK2.py &
   python3 montagne/IHD2.py &
   python3 montagne/IHDG2.py &
+  python3 montagne/IHE2.py &
+ sleep 10
   python3 montagne/IHE2.py &
   python3 montagne/IHF2.py &
   python3 montagne/IHG2.py &
@@ -4516,6 +4594,8 @@ do
   python3 montagne/IMCC2.py &
   python3 montagne/IMCG2.py &
   python3 montagne/IMCR2.py &
+ sleep 10
+  python3 montagne/IMCR2.py &
   python3 montagne/IMCV2.py &
   python3 montagne/IMFL2.py &
   python3 montagne/IMGN2.py &
@@ -4525,8 +4605,6 @@ do
   python3 montagne/IMMR2.py &
   python3 montagne/IMMX2.py &
   python3 montagne/IMNM2.py &
-  python3 montagne/IMO2.py &
- sleep 10
   python3 montagne/IMO2.py &
   python3 montagne/IMOM2.py &
   python3 montagne/IMOS2.py &
@@ -4567,6 +4645,8 @@ do
   python3 montagne/INFN2.py &
   python3 montagne/INFU2.py &
   python3 montagne/INFY2.py &
+  python3 montagne/ING2.py &
+ sleep 10
   python3 montagne/ING2.py &
   python3 montagne/INGN2.py &
   python3 montagne/INGR2.py &
@@ -4670,6 +4750,8 @@ do
   python3 montagne/IRDM2.py &
   python3 montagne/IREN2.py &
   python3 montagne/IRIX2.py &
+ sleep 10
+  python3 montagne/IRIX2.py &
   python3 montagne/IRM2.py &
   python3 montagne/IRMD2.py &
   python3 montagne/IRNT2.py &
@@ -4710,8 +4792,6 @@ do
   python3 montagne/ITAN2.py &
   python3 montagne/ITAQ2.py &
   python3 montagne/ITAQU2.py &
- sleep 10
-  python3 montagne/ITAQU2.py &
   python3 montagne/ITB2.py &
   python3 montagne/ITCB2.py &
   python3 montagne/ITCI2.py &
@@ -4721,6 +4801,8 @@ do
   python3 montagne/ITIC2.py &
   python3 montagne/ITM2.py &
   python3 montagne/ITOS2.py &
+  python3 montagne/ITOT2.py &
+ sleep 10
   python3 montagne/ITOT2.py &
   python3 montagne/ITP2.py &
   python3 montagne/ITRG2.py &
@@ -4772,6 +4854,8 @@ do
   python3 montagne/IWFH2.py &
   python3 montagne/IWFL2.py &
   python3 montagne/IWIN2.py &
+ sleep 10
+  python3 montagne/IWIN2.py &
   python3 montagne/IWL2.py &
   python3 montagne/IWLG2.py &
   python3 montagne/IWM2.py &
@@ -4802,8 +4886,6 @@ do
   python3 montagne/IYH2.py &
   python3 montagne/IYJ2.py &
   python3 montagne/IYK2.py &
- sleep 10
-  python3 montagne/IYK2.py &
   python3 montagne/IYLD2.py &
   python3 montagne/IYM2.py &
   python3 montagne/IYR2.py &
@@ -4823,6 +4905,8 @@ do
   python3 montagne/JANX2.py &
   python3 montagne/JANZ2.py &
   python3 montagne/JAQC2.py &
+  python3 montagne/JAQCU2.py &
+ sleep 10
   python3 montagne/JAQCU2.py &
   python3 montagne/JATT2.py &
   python3 montagne/JAVA2.py &
@@ -4873,6 +4957,8 @@ do
   python3 montagne/JHPI2.py &
   python3 montagne/JHS2.py &
   python3 montagne/JHSC2.py &
+  python3 montagne/JHX2.py &
+ sleep 10
   python3 montagne/JHX2.py &
   python3 montagne/JIB2.py &
   python3 montagne/JIDA2.py &
