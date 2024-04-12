@@ -19,6 +19,25 @@ import math
 import webbrowser
 import random
 import shutil
+import ftplib
+import re
+
+
+def increment_value(html_content, selector):
+    start_tag = f'<td>{selector}</td>'
+    end_tag = '</td>'
+
+    start_index = html_content.find(start_tag)
+    if start_index != -1:
+        start_index = html_content.find('<td>', start_index + len(start_tag))
+        end_index = html_content.find(end_tag, start_index)
+        if start_index != -1 and end_index != -1:
+            value = int(html_content[start_index + 4:end_index])
+            new_value = value + 1
+            html_content = html_content[:start_index + 4] + str(new_value) + html_content[end_index:]
+
+    return html_content
+
 
 def deplacer_fichier(source, destination):
     try:
@@ -175,6 +194,38 @@ def haie(ticker,time_name1,time1,start,tp,sl):
                  color='red', wrap=True)
         plt.savefig(f'pierres_trier/{ticker}-{date}.png')
         plt.close()
+        # Informations de connexion FTP
+        ftp_server = 'server133.web-hosting.com'
+        ftp_username = 'abtrqawg'
+        ftp_password = 'Km8V2Q67pUbL'
+        ftp_file_path = '/public_html/index.html'
+
+        # Connexion au serveur FTP
+        ftp = ftplib.FTP(ftp_server)
+        ftp.login(ftp_username, ftp_password)
+
+        # Téléchargement du fichier HTML depuis le serveur FTP
+        with open('fichier_local.html', 'wb') as file:
+            ftp.retrbinary(f'RETR {ftp_file_path}', file.write)
+
+        # Lire le contenu du fichier HTML local
+        with open('fichier_local.html', 'r') as file:
+            html_content = file.read()
+
+        # Incrémenter les valeurs spécifiées
+        html_content = increment_value(html_content, 'Nombre de trades fini')
+        html_content = increment_value(html_content, 'Nombre de trades gagnés')
+
+        # Écrire le contenu modifié dans le fichier HTML local
+        with open('fichier_local.html', 'w') as file:
+            file.write(html_content)
+
+        # Téléverser le fichier HTML modifié sur le serveur FTP
+        with open('fichier_local.html', 'rb') as file:
+            ftp.storbinary(f'STOR {ftp_file_path}', file)
+
+        # Fermer la connexion FTP
+        ftp.quit()
 
     if df["c"].iloc[-1] <= sl:
         print("Sa a dépassé le stoploss")
@@ -200,10 +251,43 @@ def haie(ticker,time_name1,time1,start,tp,sl):
                  color='red', wrap=True)
         plt.savefig(f'pierres_trier/{ticker}-{date}.png')
         plt.close()
+        # Informations de connexion FTP
+        ftp_server = 'server133.web-hosting.com'
+        ftp_username = 'abtrqawg'
+        ftp_password = 'Km8V2Q67pUbL'
+        ftp_file_path = '/public_html/index.html'
+
+        # Connexion au serveur FTP
+        ftp = ftplib.FTP(ftp_server)
+        ftp.login(ftp_username, ftp_password)
+
+        # Téléchargement du fichier HTML depuis le serveur FTP
+        with open('fichier_local.html', 'wb') as file:
+            ftp.retrbinary(f'RETR {ftp_file_path}', file.write)
+
+        # Lire le contenu du fichier HTML local
+        with open('fichier_local.html', 'r') as file:
+            html_content = file.read()
+
+        # Incrémenter les valeurs spécifiées
+        html_content = increment_value(html_content, 'Nombre de trades fini')
+        html_content = increment_value(html_content, 'Nombre de trades perdu')
+
+        # Écrire le contenu modifié dans le fichier HTML local
+        with open('fichier_local.html', 'w') as file:
+            file.write(html_content)
+
+        # Téléverser le fichier HTML modifié sur le serveur FTP
+        with open('fichier_local.html', 'rb') as file:
+            ftp.storbinary(f'STOR {ftp_file_path}', file)
+
+        # Fermer la connexion FTP
+        ftp.quit()
 
     if fini == True:
         chemin_source = f"trouvailles/{ticker} {minute} {time_name} {tp} {sl} .png"
         chemin_destination = f"trouvailles/fini/{ticker} {minute} {time_name} {tp} {sl} .png"
+
 
         deplacer_fichier(chemin_source, chemin_destination)
 

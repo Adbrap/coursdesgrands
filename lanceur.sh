@@ -20,7 +20,7 @@ while :
 do
 
   python3 panier.py &
- sleep 3
+ sleep 10
 
 
 clear
