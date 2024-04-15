@@ -103,7 +103,7 @@ def increment_value(html_content, selector):
 
     return html_content
 
-def courbe(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pourcent_perdu,note,debugage,dejatoucher2,mirande3,mirande2,J,I,moyenne_tete,moins50p,local_min,local_max,A,B,C,D,E,F,G,df,place_liveprice,tout_savoir):
+def courbe(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pourcent_perdu,note,debugage,dejatoucher2,mirande3,mirande2,J,I,moyenne_tete,moins50p,local_min,local_max,A,B,C,D,E,F,G,df,place_liveprice,tout_savoir, jaune):
     global argument2
     global argument3
     # ----- creer la figure et l'affichage MATPLOTLIB -----#
@@ -207,8 +207,9 @@ def courbe(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pour
         target2 = J[1] - ((moyenne_tete*5) / 100)
         button2.on_clicked(lambda event: achat(ticker, target1, target2))
         now = datetime.datetime.now()
-        if not os.path.isfile(f'trouvailles/{tiker_live} .png'):
-            plt.savefig(f'trouvailles/{tiker_live} {time1} {time_name1} {round(J[1] + ((moyenne_tete*30) / 100), 5)} {round(J[1] - ((moyenne_tete*5) / 100), 5)} .png')
+        fichiers_toilette = filter(lambda x: f"{ticker}" in x, os.listdir('trouvailles'))
+        if any(fichiers_toilette):
+            plt.savefig(f'trouvailles/{tiker_live} {time1} {time_name1} {round(J[1] + ((moyenne_tete*30) / 100), 5)} {round(J[1] - ((moyenne_tete*5) / 100), 5)} {jaune} .png')
         #plt.show()
 
             # Informations de connexion FTP
@@ -657,7 +658,7 @@ def Finder_IETE(time1, time_name1, start1):
 
                         # ----- initialisation des données d'aide -----#
                         if pourcent_chercher2 >= 0.6:
-                            thread = Process(target=courbe, args=(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pourcent_perdu,note,debugage,dejatoucher2,mirande3,mirande2,J,I,moyenne_tete,moins50p,local_min,local_max,A,B,C,D,E,F,G,df,place_liveprice,tout_savoir))
+                            thread = Process(target=courbe, args=(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pourcent_perdu,note,debugage,dejatoucher2,mirande3,mirande2,J,I,moyenne_tete,moins50p,local_min,local_max,A,B,C,D,E,F,G,df,place_liveprice,tout_savoir,df['c'].values[-2]))
                             thread.start()
 
 
