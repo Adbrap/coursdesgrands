@@ -70,11 +70,12 @@ minute = sys.argv[2]
 time_name = sys.argv[3]
 tp = sys.argv[4]
 sl = sys.argv[5]
+jaune = sys.argv[6]
 
 minute = int(minute)
 tp = float(tp)
 sl = float(sl)
-def haie(ticker,time_name1,time1,start,tp,sl):
+def haie(ticker,time_name1,time1,start,tp,sl,jaune):
     global fini
 
 
@@ -293,9 +294,9 @@ def haie(ticker,time_name1,time1,start,tp,sl):
 
 
 if time_name == 'minute':
-    haie(ticker,"minute",minute,start_1h,tp,sl)
+    haie(ticker,"minute",minute,start_1h,tp,sl,jaune)
 if time_name == 'hour':
-    haie(ticker, "hour", minute, start_6h, tp, sl)
+    haie(ticker, "hour", minute, start_6h, tp, sl,jaune)
 print(ticker)
 
 

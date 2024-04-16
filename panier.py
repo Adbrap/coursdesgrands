@@ -32,6 +32,7 @@ if fichiers_png:
         arg2 = nom_fichier_sans_chemin.split()[2]
         arg3 = nom_fichier_sans_chemin.split()[3]
         arg4 = nom_fichier_sans_chemin.split()[4]
+        arg4 = nom_fichier_sans_chemin.split()[5]
         print(f'{arg0}')
-        subprocess.run(["python3", "dino.py", arg0, arg1, arg2, arg3, arg4])
+        subprocess.run(["python3", "dino.py", arg0, arg1, arg2, arg3, arg4, arg5])
 
