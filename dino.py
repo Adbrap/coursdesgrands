@@ -21,23 +21,74 @@ import random
 import shutil
 import ftplib
 import re
+from ftplib import FTP
+import ftplib
+import requests
 
 
-def increment_value(html_content, selector):
-    start_tag = f'<td>{selector}</td>'
-    end_tag = '</td>'
+def recuperer_contenu(url):
+    try:
+        # Envoyer une requête GET à l'URL pour obtenir le contenu du fichier
+        reponse = requests.get(url, verify=False)
 
-    start_index = html_content.find(start_tag)
-    if start_index != -1:
-        start_index = html_content.find('<td>', start_index + len(start_tag))
-        end_index = html_content.find(end_tag, start_index)
-        if start_index != -1 and end_index != -1:
-            value = int(html_content[start_index + 4:end_index])
-            new_value = value + 1
-            html_content = html_content[:start_index + 4] + str(new_value) + html_content[end_index:]
+        # Vérifier si la requête a réussi (statut 200)
+        if reponse.status_code == 200:
+            # Renvoyer le contenu du fichier
+            return reponse.text
+        else:
+            print("La requête a échoué avec le code de statut :", reponse.status_code)
+            return None
+    except requests.RequestException as e:
+        print("Une erreur s'est produite lors de la requête :", e)
+        return None
 
-    return html_content
+def ecrire(fichier1, nombre):
+    try:
+        # Essayer d'ouvrir le fichier en mode lecture
+        with open(fichier1, 'r') as fichier:
+            # Lire la première ligne du fichier et convertir en entier
+            nombre_actuel = float(fichier.readline().strip())
+    except FileNotFoundError:
+        # Si le fichier n'existe pas, afficher un message d'erreur et quitter
+        print("Erreur : Le fichier n'existe pas.")
+        return
 
+    # Incrémenter le nombre
+    nombre_actuel += nombre
+
+    # Écrire le nouveau nombre dans le fichier
+    with open(fichier1, 'w') as fichier:
+        fichier.write(str(nombre_actuel))
+
+    # Afficher le nombre actuel
+    print(nombre_actuel)
+def ecrire2(fichier1, nombre):
+    try:
+        # Ouvrir le fichier en mode écriture (ceci effacera son contenu)
+        with open(fichier1, 'w') as fichier:
+            # Écrire le nouveau nombre dans le fichier
+            fichier.write(str(nombre))
+    except Exception as e:
+        # Gérer les exceptions
+        print("Une erreur s'est produite :", e)
+        return
+
+    # Afficher le nombre actuel
+    print("Nombre actuel écrit dans le fichier :", nombre)
+
+def ecrire3(fichier1, nombre):
+    try:
+        # Ouvrir le fichier en mode ajout (append) pour ajouter à la fin
+        with open(fichier1, 'a') as fichier:
+            # Écrire le nouveau nombre suivi d'un saut de ligne
+            fichier.write(str(nombre) + '\n')
+    except Exception as e:
+        # Gérer les exceptions
+        print("Une erreur s'est produite :", e)
+        return
+
+    # Afficher le nombre ajouté
+    print("Nombre ajouté au fichier :", nombre)
 
 def deplacer_fichier(source, destination):
     try:
@@ -51,15 +102,18 @@ def deplacer_fichier(source, destination):
     except Exception as e:
         print(f"Une erreur s'est produite : {e}")
 
+
 # ----- initialisation des temps de recherches -----#
 date = datetime.datetime.now()
 my_lock = threading.RLock()
 end = str(pd.Timestamp.today() + pd.DateOffset(5))[0:10]
 start_5m = str(pd.Timestamp.today() + pd.DateOffset(-15))[0:10]
-start_15m = str(pd.Timestamp.today() + pd.DateOffset(-15000))[0:10]
+start_15m = str(pd.Timestamp.today() + pd.DateOffset(-15))[0:10]
 start_30m = str(pd.Timestamp.today() + pd.DateOffset(-15))[0:10]
 start_1h = str(pd.Timestamp.today() + pd.DateOffset(-15))[0:10]
-start_6h = str(pd.Timestamp.today() + pd.DateOffset(-20))[0:10]
+start_6h = str(pd.Timestamp.today() + pd.DateOffset(-25))[0:10]
+start_12h = str(pd.Timestamp.today() + pd.DateOffset(-35))[0:10]
+start_18h = str(pd.Timestamp.today() + pd.DateOffset(-50))[0:10]
 start_1d = str(pd.Timestamp.today() + pd.DateOffset(-50))[0:10]
 start_1week = str(pd.Timestamp.today() + pd.DateOffset(-120))[0:10]
 start_1month = str(pd.Timestamp.today() + pd.DateOffset(-240))[0:10]
@@ -71,44 +125,32 @@ time_name = sys.argv[3]
 tp = sys.argv[4]
 sl = sys.argv[5]
 jaune = sys.argv[6]
+nomdufichier = sys.argv[7]
 
 minute = int(minute)
 tp = float(tp)
 sl = float(sl)
-def haie(ticker,time_name1,time1,start,tp,sl,jaune):
+jaune = float(jaune)
+
+
+def haie(ticker, time_name1, time1, start, tp, sl, jaune):
     global fini
 
-
-
-# ----- initialisation de l'API key et ticker -----#
+    # ----- initialisation de l'API key et ticker -----#
     api_key = '1KsqKOh1pTAJyWZx6Qm9pvnaNcpKVh_8'
-    #api_key = 'q5li8Y5ldvlF7eP8YI7XdMWbyOA3scWJ'
-    tiker_live = ticker
+    # api_key = 'q5li8Y5ldvlF7eP8YI7XdMWbyOA3scWJ'
     # ----- Appel des données Polygon.io OHLC et creation du DF -----#
 
     try:
-        api_url_livePrice = f'http://api.polygon.io/v2/last/trade/{tiker_live}?apiKey={api_key}'
-        #api_url_livePrice = 'http://ab-trading.fr/data.json'
-        data = requests.get(api_url_livePrice).json()
-        df_livePrice = pd.DataFrame(data)
-        # api_url_OHLC = f'http://api.polygon.io/v2/aggs/ticker/{ticker}/range/15/minute/2022-07-01/2022-07-15?adjusted=true&sort=asc&limit=30000&apiKey={api_key}'
         api_url_OHLC = f'http://api.polygon.io/v2/aggs/ticker/{ticker}/range/{time1}/{time_name1}/{start}/{end}?adjusted=true&limit=50000&apiKey={api_key}'
-        #api_url_OHLC = 'http://ab-trading.fr/data2.json'
         data = requests.get(api_url_OHLC).json()
         df = pd.DataFrame(data['results'])
-        la_place_de_p = 0
-        for k in range(0, len(df_livePrice.index)):
-            if df_livePrice.index[k] == 'p':
-                la_place_de_p = k
-        livePrice = df_livePrice['results'].iloc[la_place_de_p]
     except:
         Write.Print("<⛔> <⛔> <⛔> <⛔> ERREUR CRITIQUE <⛔> <⛔> <⛔> <⛔>", Colors.red, interval=0.000)
         print('')
 
         # ----- Appel des données Polygon.io OHLC et creation du DF -----#
 
-    dernieres_lignes = df.iloc[-2:]
-    nouveau_df = pd.DataFrame(dernieres_lignes)
     df = df.drop(df.index[-1])
     df = df.tail(30)
 
@@ -145,31 +187,29 @@ def haie(ticker,time_name1,time1,start,tp,sl,jaune):
     highs = df.iloc[local_max, :]
     lows = df.iloc[local_min, :]
 
-    #fig1 = plt.figure(figsize=(10, 7))
-    #plt.plot([], [], " ")
-    #fig1.patch.set_facecolor('#17DE17')
-    #fig1.patch.set_alpha(0.3)
-    #timestamp_sec1 = df['t'].iloc[0] / 1000
-    #timestamp_sec2 = df['t'].iloc[-1] / 1000
-    #plt.title(
+    # fig1 = plt.figure(figsize=(10, 7))
+    # plt.plot([], [], " ")
+    # fig1.patch.set_facecolor('#17DE17')
+    # fig1.patch.set_alpha(0.3)
+    # timestamp_sec1 = df['t'].iloc[0] / 1000
+    # timestamp_sec2 = df['t'].iloc[-1] / 1000
+    # plt.title(
     #    f'''IETE : {ticker} {start} | {end} | réel : {datetime.datetime.fromtimestamp(timestamp_sec1)} /  {datetime.datetime.fromtimestamp(timestamp_sec2)}  G''',
     #    fontweight="bold", color='black')
-    #df['c'].plot(color=['blue'], label='Clotures')
-    #plt.grid(which='major', color='#666666', linestyle='-', alpha=0.2)
-    #plt.axhline(y=tp, linestyle='--', alpha=1, color='green',
+    # df['c'].plot(color=['blue'], label='Clotures')
+    # plt.grid(which='major', color='#666666', linestyle='-', alpha=0.2)
+    # plt.axhline(y=tp, linestyle='--', alpha=1, color='green',
     #            label='30% objectif')
-    #plt.axhline(y=sl, linestyle='--', alpha=1, color='red',
+    # plt.axhline(y=sl, linestyle='--', alpha=1, color='red',
     #            label='-5% objectif')
-    #plt.scatter(x=lows.index, y=lows["c"], alpha=0.4)
-    #plt.scatter(x=highs.index, y=highs["c"], alpha=0.4)
-    #plt.scatter(x=df['c'].index[-1], y=df['c'].iloc[-1], alpha=0.4, color='blue')
-    #plt.scatter(x=df['c'].index[-2], y=df['c'].iloc[-2], alpha=0.4, color='blue')
-    #plt.text(df['c'].index[-1], df['c'].iloc[-1], f"G  {round(df['c'].iloc[-1], 5)}", ha='left', style='normal',
+    # plt.scatter(x=lows.index, y=lows["c"], alpha=0.4)
+    # plt.scatter(x=highs.index, y=highs["c"], alpha=0.4)
+    # plt.scatter(x=df['c'].index[-1], y=df['c'].iloc[-1], alpha=0.4, color='blue')
+    # plt.scatter(x=df['c'].index[-2], y=df['c'].iloc[-2], alpha=0.4, color='blue')
+    # plt.text(df['c'].index[-1], df['c'].iloc[-1], f"G  {round(df['c'].iloc[-1], 5)}", ha='left', style='normal',
     #         size=10.5,
     #         color='red', wrap=True)
-    #plt.show()
-
-
+    # plt.show()
 
     if df["c"].iloc[-1] >= tp:
         print("Sa a dépassé le takeprofit")
@@ -180,53 +220,29 @@ def haie(ticker,time_name1,time1,start,tp,sl,jaune):
         fig1.patch.set_alpha(0.3)
         timestamp_sec1 = df['t'].iloc[0] / 1000
         timestamp_sec2 = df['t'].iloc[-1] / 1000
-        plt.title(
-            f'''IETE : {ticker} {start} | {end} | réel : {datetime.datetime.fromtimestamp(timestamp_sec1)} /  {datetime.datetime.fromtimestamp(timestamp_sec2)}  G''',
-            fontweight="bold", color='black')
+        plt.title(f'''IETE : {ticker} {start} | {end} | réel : {datetime.datetime.fromtimestamp(timestamp_sec1)} /  {datetime.datetime.fromtimestamp(timestamp_sec2)}  G''', fontweight="bold", color='black')
         df['c'].plot(color=['blue'], label='Clotures')
         plt.grid(which='major', color='#666666', linestyle='-', alpha=0.2)
-        plt.axhline(y=tp, linestyle='--', alpha=1, color='green',
-                    label='30% objectif')
+        plt.axhline(y=tp, linestyle='--', alpha=1, color='green', label='30% objectif')
+        plt.axhline(y=sl, linestyle='--', alpha=1, color='red', label='-5% objectif')
         plt.scatter(x=lows.index, y=lows["c"], alpha=0.4)
         plt.scatter(x=highs.index, y=highs["c"], alpha=0.4)
-        plt.scatter(x=df['c'].index[-1], y=df['c'].iloc[-1], alpha=0.4,color='blue')
+        plt.scatter(x=df['c'].index[-1], y=df['c'].iloc[-1], alpha=0.4, color='blue')
         plt.scatter(x=df['c'].index[-2], y=df['c'].iloc[-2], alpha=0.4, color='blue')
-        plt.text(df['c'].index[-1], df['c'].iloc[-1], f"G  {round(df['c'].iloc[-1], 5)}", ha='left', style='normal', size=10.5,
-                 color='red', wrap=True)
-        plt.savefig(f'pierres_trier/{ticker}-{date}.png')
+        plt.text(df['c'].index[-1], df['c'].iloc[-1], f"G  {round(df['c'].iloc[-1], 5)}", ha='left', style='normal', size=10.5, color='red', wrap=True)
+        plt.savefig(f'/home/atoll/trouvailles2/fini/trier/{ticker}-{date} {time1} {time_name1}.png')
         plt.close()
-        # Informations de connexion FTP
-        ftp_server = 'server133.web-hosting.com'
-        ftp_username = 'abtrqawg'
-        ftp_password = 'Km8V2Q67pUbL'
-        ftp_file_path = '/public_html/index.html'
-
-        # Connexion au serveur FTP
-        ftp = ftplib.FTP(ftp_server)
-        ftp.login(ftp_username, ftp_password)
-
-        # Téléchargement du fichier HTML depuis le serveur FTP
-        with open('fichier_local.html', 'wb') as file:
-            ftp.retrbinary(f'RETR {ftp_file_path}', file.write)
-
-        # Lire le contenu du fichier HTML local
-        with open('fichier_local.html', 'r') as file:
-            html_content = file.read()
-
-        # Incrémenter les valeurs spécifiées
-        html_content = increment_value(html_content, 'Nombre de trades fini')
-        html_content = increment_value(html_content, 'Nombre de trades gagnés')
-
-        # Écrire le contenu modifié dans le fichier HTML local
-        with open('fichier_local.html', 'w') as file:
-            file.write(html_content)
-
-        # Téléverser le fichier HTML modifié sur le serveur FTP
-        with open('fichier_local.html', 'rb') as file:
-            ftp.storbinary(f'STOR {ftp_file_path}', file)
-
-        # Fermer la connexion FTP
-        ftp.quit()
+        dfgagnant = (((df["c"].iloc[-1] - jaune) * 100) / df["c"].iloc[-1])
+        ecrire('gagnant.txt', 1)
+        ecrire('pourcent.txt', dfgagnant)
+        ecrire2('dernierdf.txt', dfgagnant)
+        ecrire3("df.txt", dfgagnant)
+        shutil.move(f'/home/atoll/trouvailles2/{nomdufichier}', f'/home/atoll/trouvailles2/fini/{nomdufichier}')
+        url_du_fichier_texte = "http://ab-trading.fr/plus_gros_gain2.txt"
+        contenu_du_fichier = recuperer_contenu(url_du_fichier_texte)
+        contenu_du_fichier = float(contenu_du_fichier)
+        if dfgagnant > contenu_du_fichier:
+            ecrire2('plusgrosgain.txt', dfgagnant)
 
     if df["c"].iloc[-1] <= sl:
         print("Sa a dépassé le stoploss")
@@ -238,69 +254,114 @@ def haie(ticker,time_name1,time1,start,tp,sl,jaune):
         timestamp_sec1 = df['t'].iloc[0] / 1000
         timestamp_sec2 = df['t'].iloc[-1] / 1000
         plt.title(
-            f'''IETE : {ticker} {start} | {end} | réel : {datetime.datetime.fromtimestamp(timestamp_sec1)} /  {datetime.datetime.fromtimestamp(timestamp_sec2)}  P''',
-            fontweight="bold", color='black')
+            f'''IETE : {ticker} {start} | {end} | réel : {datetime.datetime.fromtimestamp(timestamp_sec1)} /  {datetime.datetime.fromtimestamp(timestamp_sec2)}  P''', fontweight="bold", color='black')
         df['c'].plot(color=['blue'], label='Clotures')
         plt.grid(which='major', color='#666666', linestyle='-', alpha=0.2)
-        plt.axhline(y=sl, linestyle='--', alpha=1, color='red',
-                    label='-5% objectif')
+        plt.axhline(y=tp, linestyle='--', alpha=1, color='green', label='30% objectif')
+        plt.axhline(y=sl, linestyle='--', alpha=1, color='red', label='-5% objectif')
         plt.scatter(x=lows.index, y=lows["c"], alpha=0.4)
         plt.scatter(x=highs.index, y=highs["c"], alpha=0.4)
-        plt.scatter(x=df['c'].index[-1], y=df['c'].iloc[-1], alpha=0.4,color='blue')
+        plt.scatter(x=df['c'].index[-1], y=df['c'].iloc[-1], alpha=0.4, color='blue')
         plt.scatter(x=df['c'].index[-2], y=df['c'].iloc[-2], alpha=0.4, color='blue')
-        plt.text(df['c'].index[-1], df['c'].iloc[-1], f"G  {round(df['c'].iloc[-1], 5)}", ha='left', style='normal', size=10.5,
-                 color='red', wrap=True)
-        plt.savefig(f'pierres_trier/{ticker}-{date}.png')
+        plt.text(df['c'].index[-1], df['c'].iloc[-1], f"G  {round(df['c'].iloc[-1], 5)}", ha='left', style='normal', size=10.5, color='red', wrap=True)
+        plt.savefig(f'/home/atoll/trouvailles2/fini/trier/{ticker}-{date} {time1} {time_name1}.png')
         plt.close()
-        # Informations de connexion FTP
-        ftp_server = 'server133.web-hosting.com'
-        ftp_username = 'abtrqawg'
-        ftp_password = 'Km8V2Q67pUbL'
-        ftp_file_path = '/public_html/index.html'
+        dfperdant = (((df["c"].iloc[-1] - jaune) * 100) / jaune)
+        ecrire('perdant.txt', 1)
+        ecrire('pourcent.txt', dfperdant)
+        ecrire2('dernierdf.txt', dfperdant)
+        ecrire3("df.txt", dfperdant)
+        shutil.move(f'/home/atoll/trouvailles2/{nomdufichier}', f'/home/atoll/trouvailles2/fini/{nomdufichier}')
+        url_du_fichier_texte = "http://ab-trading.fr/plus_grosse_perte2.txt"
+        contenu_du_fichier = recuperer_contenu(url_du_fichier_texte)
+        contenu_du_fichier = float(contenu_du_fichier)
+        if dfperdant < contenu_du_fichier:
+            ecrire2('plusgrosseperte.txt', dfperdant)
 
-        # Connexion au serveur FTP
-        ftp = ftplib.FTP(ftp_server)
-        ftp.login(ftp_username, ftp_password)
-
-        # Téléchargement du fichier HTML depuis le serveur FTP
-        with open('fichier_local.html', 'wb') as file:
-            ftp.retrbinary(f'RETR {ftp_file_path}', file.write)
-
-        # Lire le contenu du fichier HTML local
-        with open('fichier_local.html', 'r') as file:
-            html_content = file.read()
-
-        # Incrémenter les valeurs spécifiées
-        html_content = increment_value(html_content, 'Nombre de trades fini')
-        html_content = increment_value(html_content, 'Nombre de trades perdu')
-
-        # Écrire le contenu modifié dans le fichier HTML local
-        with open('fichier_local.html', 'w') as file:
-            file.write(html_content)
-
-        # Téléverser le fichier HTML modifié sur le serveur FTP
-        with open('fichier_local.html', 'rb') as file:
-            ftp.storbinary(f'STOR {ftp_file_path}', file)
-
-        # Fermer la connexion FTP
-        ftp.quit()
-
-    if fini == True:
-        chemin_source = f"trouvailles/{ticker} {minute} {time_name} {tp} {sl} .png"
-        chemin_destination = f"trouvailles/fini/{ticker} {minute} {time_name} {tp} {sl} .png"
-
-
-        deplacer_fichier(chemin_source, chemin_destination)
 
 
 if time_name == 'minute':
-    haie(ticker,"minute",minute,start_1h,tp,sl,jaune)
+    if minute == 15:
+        haie(ticker, "minute", minute, start_15m, tp, sl, jaune)
+    if minute == 20:
+        haie(ticker, "minute", minute, start_15m, tp, sl, jaune)
+    if minute == 25:
+        haie(ticker, "minute", minute, start_15m, tp, sl, jaune)
+    if minute == 30:
+        haie(ticker, "minute", minute, start_30m, tp, sl, jaune)
+    if minute == 35:
+        haie(ticker, "minute", minute, start_30m, tp, sl, jaune)
+    if minute == 45:
+        haie(ticker, "minute", minute, start_30m, tp, sl, jaune)
+    if minute == 40:
+        haie(ticker, "minute", minute, start_30m, tp, sl, jaune)
+    if minute == 50:
+        haie(ticker, "minute", minute, start_30m, tp, sl, jaune)
+    if minute == 55:
+        haie(ticker, "minute", minute, start_30m, tp, sl, jaune)
+    if minute == 75:
+        haie(ticker, "minute", minute, start_1h, tp, sl, jaune)
+    if minute == 90:
+        haie(ticker, "minute", minute, start_1h, tp, sl, jaune)
+    if minute == 105:
+        haie(ticker, "minute", minute, start_1h, tp, sl, jaune)
+    if minute == 135:
+        haie(ticker, "minute", minute, start_1h, tp, sl, jaune)
+    if minute == 150:
+        haie(ticker, "minute", minute, start_1h, tp, sl, jaune)
+    if minute == 165:
+        haie(ticker, "minute", minute, start_1h, tp, sl, jaune)
+    if minute == 195:
+        haie(ticker, "minute", minute, start_1h, tp, sl, jaune)
+    if minute == 210:
+        haie(ticker, "minute", minute, start_1h, tp, sl, jaune)
+    if minute == 225:
+        haie(ticker, "minute", minute, start_1h, tp, sl, jaune)
+    if minute == 255:
+        haie(ticker, "minute", minute, start_1h, tp, sl, jaune)
+
+
 if time_name == 'hour':
-    haie(ticker, "hour", minute, start_6h, tp, sl,jaune)
+    if minute == 3:
+        haie(ticker, "hour", minute, start_1h, tp, sl, jaune)
+    if minute == 5:
+        haie(ticker, "hour", minute, start_1h, tp, sl, jaune)
+    if minute == 6:
+        haie(ticker, "hour", minute, start_6h, tp, sl, jaune)
+    if minute == 7:
+        haie(ticker, "hour", minute, start_6h, tp, sl, jaune)
+    if minute == 8:
+        haie(ticker, "hour", minute, start_6h, tp, sl, jaune)
+    if minute == 9:
+        haie(ticker, "hour", minute, start_6h, tp, sl, jaune)
+    if minute == 10:
+        haie(ticker, "hour", minute, start_6h, tp, sl, jaune)
+    if minute == 11:
+        haie(ticker, "hour", minute, start_6h, tp, sl, jaune)
+    if minute == 12:
+        haie(ticker, "hour", minute, start_12h, tp, sl, jaune)
+    if minute == 13:
+        haie(ticker, "hour", minute, start_12h, tp, sl, jaune)
+    if minute == 14:
+        haie(ticker, "hour", minute, start_12h, tp, sl, jaune)
+    if minute == 15:
+        haie(ticker, "hour", minute, start_12h, tp, sl, jaune)
+    if minute == 16:
+        haie(ticker, "hour", minute, start_12h, tp, sl, jaune)
+    if minute == 17:
+        haie(ticker, "hour", minute, start_12h, tp, sl, jaune)
+    if minute == 18:
+        haie(ticker, "hour", minute, start_12h, tp, sl, jaune)
+    if minute == 19:
+        haie(ticker, "hour", minute, start_18h, tp, sl, jaune)
+    if minute == 20:
+        haie(ticker, "hour", minute, start_18h, tp, sl, jaune)
+    if minute == 21:
+        haie(ticker, "hour", minute, start_18h, tp, sl, jaune)
+    if minute == 22:
+        haie(ticker, "hour", minute, start_18h, tp, sl, jaune)
+    if minute == 23:
+        haie(ticker, "hour", minute, start_18h, tp, sl, jaune)
+    if minute == 24:
+        haie(ticker, "hour", minute, start_18h, tp, sl, jaune)
 print(ticker)
-
-
-
-
-
-

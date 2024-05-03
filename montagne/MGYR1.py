@@ -58,15 +58,17 @@ start_5m = str(pd.Timestamp.today() + pd.DateOffset(-15))[0:10]
 start_15m = str(pd.Timestamp.today() + pd.DateOffset(-15))[0:10]
 start_30m = str(pd.Timestamp.today() + pd.DateOffset(-15))[0:10]
 start_1h = str(pd.Timestamp.today() + pd.DateOffset(-15))[0:10]
-start_6h = str(pd.Timestamp.today() + pd.DateOffset(-20))[0:10]
+start_6h = str(pd.Timestamp.today() + pd.DateOffset(-25))[0:10]
+start_12h = str(pd.Timestamp.today() + pd.DateOffset(-35))[0:10]
+start_18h = str(pd.Timestamp.today() + pd.DateOffset(-50))[0:10]
 start_1d = str(pd.Timestamp.today() + pd.DateOffset(-50))[0:10]
 start_1week = str(pd.Timestamp.today() + pd.DateOffset(-120))[0:10]
 start_1month = str(pd.Timestamp.today() + pd.DateOffset(-240))[0:10]
 # ----- initialisation des temps de recherches -----#
 
 # ----- initialisation de l'API key et ticker -----#
-#api_key = '1KsqKOh1pTAJyWZx6Qm9pvnaNcpKVh_8'
-api_key = 'q5li8Y5ldvlF7eP8YI7XdMWbyOA3scWJ'
+api_key = '1KsqKOh1pTAJyWZx6Qm9pvnaNcpKVh_8'
+#api_key = 'q5li8Y5ldvlF7eP8YI7XdMWbyOA3scWJ'
 ticker = 'MGYR'
 tiker_live = ticker
 
@@ -86,22 +88,7 @@ def save_figure(event):
 
 # ----- initialisation des fonctions lies au boutons -----#
 
-def increment_value(html_content, selector):
-    start_tag = f'<td>{selector}</td>'
-    end_tag = '</td>'
-
-    start_index = html_content.find(start_tag)
-    if start_index != -1:
-        start_index = html_content.find('<td>', start_index + len(start_tag))
-        end_index = html_content.find(end_tag, start_index)
-        if start_index != -1 and end_index != -1:
-            value = int(html_content[start_index + 4:end_index])
-            new_value = value + 1
-            html_content = html_content[:start_index + 4] + str(new_value) + html_content[end_index:]
-
-    return html_content
-
-def courbe(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pourcent_perdu,note,debugage,dejatoucher2,mirande3,mirande2,J,I,moyenne_tete,moins50p,local_min,local_max,A,B,C,D,E,F,G,df,place_liveprice,tout_savoir,jaune):
+def courbe(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pourcent_perdu,note,debugage,dejatoucher2,mirande3,mirande2,J,I,moyenne_tete,moins50p,local_min,local_max,A,B,C,D,E,F,G,df,place_liveprice,tout_savoir, jaune):
     global argument2
     global argument3
     # ----- creer la figure et l'affichage MATPLOTLIB -----#
@@ -205,45 +192,12 @@ def courbe(pourcent_chercher2,tiker_live,time1,time_name1,pourcent_chercher,pour
         target2 = J[1] - ((moyenne_tete*5) / 100)
         button2.on_clicked(lambda event: achat(ticker, target1, target2))
         now = datetime.datetime.now()
-        fichiers_toilette = filter(lambda x: f"{ticker}" in x, os.listdir('/home/ubuntu/trouvailles'))
-        if any(fichiers_toilette):
-            plt.savefig(f'/home/ubuntu/trouvailles/{tiker_live} {time1} {time_name1} {round(J[1] + ((moyenne_tete * 30) / 100), 5)} {round(J[1] - ((moyenne_tete * 5) / 100), 5)} {jaune} .png')
-            #plt.show()
+        #fichiers_toilette = filter(lambda x: f"{ticker}" in x, os.listdir('/home/ubuntu/trouvailles'))
+        #if any(fichiers_toilette):
+            #plt.savefig(f'/home/ubuntu/trouvailles/{tiker_live} {time1} {time_name1} {round(J[1] + ((moyenne_tete*30) / 100), 5)} {round(J[1] - ((moyenne_tete*5) / 100), 5)} {jaune} .png')
+        plt.show()
 
-            # Informations de connexion FTP
-            ftp_server = 'server133.web-hosting.com'
-            ftp_username = 'abtrqawg'
-            ftp_password = 'Km8V2Q67pUbL'
-            ftp_file_path = '/public_html/2.html'
-
-            # Connexion au serveur FTP
-            ftp = ftplib.FTP(ftp_server)
-            ftp.login(ftp_username, ftp_password)
-
-            # Téléchargement du fichier HTML depuis le serveur FTP
-            with open('fichier_local.html', 'wb') as file:
-                ftp.retrbinary(f'RETR {ftp_file_path}', file.write)
-
-            # Lire le contenu du fichier HTML local
-            with open('fichier_local.html', 'r') as file:
-                html_content = file.read()
-
-            # Incrémenter les valeurs spécifiées
-            html_content = increment_value(html_content, 'Nombre de trades pris')
-
-            # Écrire le contenu modifié dans le fichier HTML local
-            with open('fichier_local.html', 'w') as file:
-                file.write(html_content)
-
-            # Téléverser le fichier HTML modifié sur le serveur FTP
-            with open('fichier_local.html', 'rb') as file:
-                ftp.storbinary(f'STOR {ftp_file_path}', file)
-
-            # Fermer la connexion FTP
-            ftp.quit()
-
-
-    # ----- creer la figure et l'affichage MATPLOTLIB -----#
+    # ----- creer la figure et l'affichage MATPLOTLIB -----#s
     except:
         Write.Print("<⛔> <⛔> <⛔> <⛔> ERREUR CRITIQUE <⛔> <⛔> <⛔> <⛔>", Colors.red, interval=0.000)
         print('')
@@ -342,6 +296,7 @@ def Finder_IETE(time1, time_name1, start1):
         # ----- creation des locals(min/max) -----#
         local_max = argrelextrema(df['c'].values, np.greater, order=1, mode='clip')[0]
         local_min = argrelextrema(df['c'].values, np.less, order=1, mode='clip')[0]
+
         # ----- creation des locals(min/max) -----#
 
         # ----- suppression des points morts de la courbe -----#
@@ -372,7 +327,6 @@ def Finder_IETE(time1, time_name1, start1):
 
             len1 = len(local_min)
             len2 = len(local_max)
-
 
         decalage = 0
         # ----- suppression des points morts de la courbe -----#
@@ -558,10 +512,12 @@ def Finder_IETE(time1, time_name1, start1):
                         pourcent_chercher = ((plus_grand - plus_petit) / plus_petit) * 100
                         pourcent_chercher = round(pourcent_chercher, 2)
 
+
                         prix_chercher = df['c'].values[-2] + (df['c'].values[-2] * 0.015)
                         difference_chercher = prix_chercher - J[1]
                         tout_savoir = (difference_chercher*100)/moyenne_tete
-                        tout_savoir = round(tout_savoir, 2)
+                        tout_savoir = round(tout_savoir,2)
+
 
                         mini_pourcent = False
                         if pourcent_chercher >= 1.5:
@@ -631,8 +587,8 @@ def Finder_IETE(time1, time_name1, start1):
 
                         # ----- regarde si la target a deja ete toucher en volatilité avant affichage  -----#
                         dejatoucher = False
-                        for i in range(int(df['c'].index[-2]), place_liveprice):
-                            if df['h'].iloc[i] >= J[1] + (moyenne_tete*30) / 100 and dejatoucher == False:
+                        for i in range(int(round(J[0])), place_liveprice):
+                            if df['h'].iloc[i] <= J[1] + (moyenne_tete) / 2 and dejatoucher == False:
                                 dejatoucher = True
                                 dejatoucher2 = 'OUI'
                         if dejatoucher == False:
@@ -684,7 +640,6 @@ th9 = Process(target=Finder_IETE, args=(4, heure, start_1h))
 th10 = Process(target=Finder_IETE, args=(40, minute, start_30m))
 th11 = Process(target=Finder_IETE, args=(50, minute, start_30m))
 th12 = Process(target=Finder_IETE, args=(55, minute, start_30m))
-th13 = Process(target=Finder_IETE, args=(30, minute, start_30m))
 th14 = Process(target=Finder_IETE, args=(75, minute, start_1h))
 th15 = Process(target=Finder_IETE, args=(90, minute, start_1h))
 th16 = Process(target=Finder_IETE, args=(105, minute, start_1h))  # ici nouveau
@@ -708,7 +663,6 @@ th9.start()
 th10.start()
 th11.start()
 th12.start()
-th13.start()
 th14.start()
 th15.start()
 th16.start()  # ici nouveau
@@ -732,7 +686,6 @@ th9.join()
 th10.join()
 th11.join()
 th12.join()
-th13.join()
 th14.join()
 th15.join()
 th16.join()  # ici nouveau
@@ -743,4 +696,3 @@ th20.join()
 th21.join()
 th22.join()
 th23.join()
-
